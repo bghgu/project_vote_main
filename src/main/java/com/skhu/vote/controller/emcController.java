@@ -5,8 +5,10 @@ import com.skhu.vote.entity.USER;
 import com.skhu.vote.service.UserService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -36,8 +38,27 @@ public class emcController {
         return jsonObject;
     }
 
+    @PostMapping("test")
+    public Object test(@RequestBody Object object) {
+        System.out.println(object);
+        return object;
+    }
+
+    //유권자 확인
+    //유권자의 학번으로 확인
+    //값이 있을 경우 사용자 정보
+    //값이 없을 경우 오류 메시지
     @PostMapping("check")
-    public USER check(@RequestBody USER user) {
-        return userService.findById(user.getId());
+    public JSONObject check(@RequestBody USER user) {
+        return userService.checkId(user.getId());
+    }
+
+    //인증번호 부여
+    //유권자 학번으로 확인
+    //6자리 인증번호 반환
+    @PostMapping("confirm")
+    @Transactional
+    public JSONObject confirm (@RequestBody USER user) {
+        return userService.confirm(user.getId());
     }
 }
