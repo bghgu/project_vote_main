@@ -14,13 +14,11 @@ public class VerificationServiceImpl implements VerificationService{
     //코드 인증
     //인증이 성공할 경우 해당 코드로 JWT 토큰 발급
     @Override
-    public JSONObject verificationCode(String code) {
-        JSONObject jsonObject = new JSONObject();
+    public boolean verificationCode(String code) {
         if(CodeQueue.verification(code)) {
-            jsonObject.put("message", "SUCCESS");
+            return true;
         }else {
-            jsonObject.put("message", "FAIL");
+            return false;
         }
-        return jsonObject;
     }
 }

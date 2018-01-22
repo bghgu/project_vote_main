@@ -22,6 +22,9 @@ public class CodeQueue {
 
     //현재 저장된 코드 확인, 디버깅용
     public static void all() {
+        if(hashCodeSet.isEmpty()) {
+            System.out.println("no code");
+        }
         for(String s : hashCodeSet) {
             System.out.println(s);
         }

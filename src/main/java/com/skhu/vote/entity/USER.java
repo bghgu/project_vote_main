@@ -12,10 +12,9 @@ import java.io.Serializable;
  */
 @Data
 @Entity
-@Table(name = "USER")
 @EqualsAndHashCode(exclude = "department")
 @ToString(exclude = "department")
-public class USER implements Serializable {
+public class USER {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 /**
  * Created by ds on 2018-01-20.
  */
+
 public interface UserRepository extends JpaRepository<USER, Integer> {
     USER findById(int id);
 
