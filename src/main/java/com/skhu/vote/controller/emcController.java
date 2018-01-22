@@ -1,17 +1,15 @@
 package com.skhu.vote.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.skhu.vote.entity.USER;
-import com.skhu.vote.service.UserService;
+import com.skhu.vote.service.CheckService;
+import com.skhu.vote.service.ConfirmService;
+import com.skhu.vote.utils.CodeQueue;
+import org.hibernate.annotations.Check;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by ds on 2018-01-12.
@@ -29,20 +27,10 @@ import java.util.Set;
 public class emcController {
 
     @Autowired
-    UserService userService;
+    CheckService checkService;
 
-    @GetMapping("")
-    public JSONObject health() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("message", "health");
-        return jsonObject;
-    }
-
-    @PostMapping("test")
-    public Object test(@RequestBody Object object) {
-        System.out.println(object);
-        return object;
-    }
+    @Autowired
+    ConfirmService confirmService;
 
     //유권자 확인
     //유권자의 학번으로 확인
@@ -50,7 +38,7 @@ public class emcController {
     //값이 없을 경우 오류 메시지
     @PostMapping("check")
     public JSONObject check(@RequestBody USER user) {
-        return userService.checkId(user.getId());
+        return checkService.checkId(user.getId());
     }
 
     //인증번호 부여
@@ -59,6 +47,12 @@ public class emcController {
     @PostMapping("confirm")
     @Transactional
     public JSONObject confirm (@RequestBody USER user) {
-        return userService.confirm(user.getId());
+        return confirmService.voterConfirmation(user.getId());
+    }
+
+    @GetMapping("")
+    public String test() {
+        CodeQueue.all();
+        return "1";
     }
 }

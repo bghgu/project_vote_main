@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 @Data
 @Entity
+@Table(name = "USER")
 @EqualsAndHashCode(exclude = "department")
 @ToString(exclude = "department")
 public class USER implements Serializable {
@@ -21,7 +22,8 @@ public class USER implements Serializable {
     private String name;
     private int userType;
     private String tel;
-    int check;
+    private int voteCheck;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "departmentId")
     DEPARTMENT department;

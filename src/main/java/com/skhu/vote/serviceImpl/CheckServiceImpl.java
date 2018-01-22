@@ -1,18 +1,18 @@
 package com.skhu.vote.serviceImpl;
 
+/**
+ * Created by ds on 2018-01-23.
+ */
+
 import com.skhu.vote.entity.USER;
 import com.skhu.vote.repository.UserRepository;
-import com.skhu.vote.service.UserService;
+import com.skhu.vote.service.CheckService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by ds on 2018-01-20.
- */
-
 @Service
-public class UserServiceImpl implements UserService {
+public class CheckServiceImpl implements CheckService{
 
     @Autowired
     UserRepository userRepository;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
                 jsonObject.put("data", "유권자가 아닙니다.");
                 jsonObject.put("message", "FAIL");
             }else {
-                if(user.getCheck() == 0) {
+                if(user.getVoteCheck() == 0) {
                     jsonObject.put("data", user);
                     jsonObject.put("message", "SUCCESS");
                 }else {
@@ -40,12 +40,5 @@ public class UserServiceImpl implements UserService {
             jsonObject.put("message", "FAIL");
             return jsonObject;
         }
-    }
-
-    @Override
-    public JSONObject confirm(int id) {
-        System.out.println(id);
-        userRepository.updateCheck(id);
-        return null;
     }
 }

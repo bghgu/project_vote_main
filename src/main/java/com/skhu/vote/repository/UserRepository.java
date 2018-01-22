@@ -13,6 +13,6 @@ public interface UserRepository extends JpaRepository<USER, Integer> {
     USER findById(int id);
 
     @Modifying
-    @Query("UPDATE USER u SET u.check = 1 where u.id = :id")
+    @Query("UPDATE USER u set u.voteCheck = 1 where u.id = :id")
     void updateCheck(@Param("id") int id);
 }
