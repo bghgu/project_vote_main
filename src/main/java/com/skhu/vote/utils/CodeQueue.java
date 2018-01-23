@@ -24,6 +24,7 @@ public class CodeQueue {
     public static void all() {
         if(hashCodeSet.isEmpty()) {
             System.out.println("no code");
+
         }
         for(String s : hashCodeSet) {
             System.out.println(s);

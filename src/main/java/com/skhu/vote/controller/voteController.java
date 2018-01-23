@@ -1,6 +1,8 @@
 package com.skhu.vote.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.skhu.vote.entity.CANDIDATE;
+import com.skhu.vote.entity.VOTE;
 import com.skhu.vote.service.CandidateService;
 import com.skhu.vote.service.VerificationService;
 import com.skhu.vote.service.VoteService;
@@ -43,17 +45,18 @@ public class voteController {
         //인증번호 로그인 성공
         if(verificationService.verificationCode(code)) {
             //후보자 리스트 반환
-            if(code.length() < 2) voteService.voteList(Integer.parseInt(code));
-            else voteService.voteList(Integer.parseInt(code.substring(0,2)));
-
+            if(code.length() < 2) return voteService.voteList(Integer.parseInt(code));
+            else return voteService.voteList(Integer.parseInt(code.substring(0,2)));
         }else {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("message", "FAIL");
+            return jsonObject;
         }
-        return new JSONObject();
     }
 
     @PostMapping("test")
-    public void test(@RequestParam String code) {
-        if(code.length() < 2) voteService.voteList(Integer.parseInt(code));
-        else voteService.voteList(Integer.parseInt(code.substring(0,2)));
+    public JSONPObject test(@RequestParam String code) {
+        JSONPObject jsonpObject = new JSONPObject("message", "FAIL");
+        return jsonpObject;
     }
 }

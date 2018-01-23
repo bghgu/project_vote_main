@@ -15,6 +15,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(exclude = "department")
 @ToString(exclude = "department")
 public class USER {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

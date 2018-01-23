@@ -16,6 +16,7 @@ import java.util.List;
 @EqualsAndHashCode(exclude = "userList")
 @ToString(exclude = "userList")
 public class DEPARTMENT {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int departmentId;
@@ -25,5 +26,4 @@ public class DEPARTMENT {
     @JsonIgnore
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     List<USER> userList;
-
 }

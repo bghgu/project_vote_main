@@ -1,18 +1,21 @@
 package com.skhu.vote.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by ds on 2018-01-23.
  */
 @Data
 @Entity
+@ToString(exclude = "vote")
+@EqualsAndHashCode(exclude = "vote")
 public class CANDIDATE {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int candidateId;
@@ -21,6 +24,9 @@ public class CANDIDATE {
     private String position;
     private String campName;
     private String photoUrl;
-    private int voteCount;
-    private int voteId;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "voteId")
+    VOTE vote;
 }
