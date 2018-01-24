@@ -8,10 +8,7 @@ import com.skhu.vote.service.VerificationService;
 import com.skhu.vote.service.VoteService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -25,6 +22,7 @@ import java.util.*;
  * 유권자 맞춤 투표 및 후보자 리스트 반환
  * */
 
+@CrossOrigin
 @RestController
 @RequestMapping("vote")
 public class voteController {
@@ -54,9 +52,4 @@ public class voteController {
         }
     }
 
-    @PostMapping("test")
-    public JSONPObject test(@RequestParam String code) {
-        JSONPObject jsonpObject = new JSONPObject("message", "FAIL");
-        return jsonpObject;
-    }
 }

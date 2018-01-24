@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
  * 인증번호 부여
  * */
 
+@CrossOrigin
 @RestController
 @RequestMapping("emc")
 public class emcController {
