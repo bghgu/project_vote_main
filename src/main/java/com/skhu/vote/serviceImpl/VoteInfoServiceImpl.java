@@ -1,13 +1,12 @@
 package com.skhu.vote.serviceImpl;
 
-import com.skhu.vote.entity.VOTE;
-import com.skhu.vote.repository.VoteRepository;
-import com.skhu.vote.service.VoteService;
+import com.skhu.vote.entity.VOTEINFO;
+import com.skhu.vote.repository.VoteInfoRepository;
+import com.skhu.vote.service.VoteInfoService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,20 +14,16 @@ import java.util.List;
  */
 
 @Service
-public class VoteServiceImpl implements VoteService {
+public class VoteInfoServiceImpl implements VoteInfoService {
 
     @Autowired
-    VoteRepository voteRepository;
+    VoteInfoRepository voteInfoRepository;
 
     //deptId = 전공Id
     //deptId2 = 학부Id
     public JSONObject voteList(int deptId) {
         int deptId2 = (deptId/10)*10;
-        /*List<VOTE> voteList = new ArrayList<>();
-        voteList.add(voteRepository.findByTarget(1));
-        voteList.add(voteRepository.findByTarget(deptId));
-        voteList.add(voteRepository.findByTarget(deptId2));*/
-        List<VOTE> voteList = voteRepository.findByTargetOrTargetOrTarget(deptId, deptId2, 1);
+        List<VOTEINFO> voteList = voteInfoRepository.findByTargetOrTargetOrTarget(deptId, deptId2, 1);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("message", "SUCCESS");
         jsonObject.put("voteList", voteList);

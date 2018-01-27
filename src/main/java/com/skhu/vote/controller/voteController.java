@@ -1,16 +1,13 @@
 package com.skhu.vote.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.skhu.vote.entity.CANDIDATE;
-import com.skhu.vote.entity.VOTE;
 import com.skhu.vote.service.CandidateService;
 import com.skhu.vote.service.VerificationService;
-import com.skhu.vote.service.VoteService;
+import com.skhu.vote.service.VoteInfoService;
+import lombok.Data;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
 
 /**
  * Created by ds on 2018-01-12.
@@ -34,17 +31,21 @@ public class voteController {
     CandidateService candidateService;
 
     @Autowired
-    VoteService voteService;
+    VoteInfoService voteService;
+
+    @Data
+    public static class AuthCode {
+        private String code;
+    }
 
     //유권자 인증번호 로그인
     //유권자에 맞게 후보자 리스트 반환
     @PostMapping("access")
-    public JSONObject access(@RequestParam String code) {
-        //인증번호 로그인 성공
-        if(verificationService.verificationCode(code)) {
+    public JSONObject access(@RequestBody AuthCode code) {
+        if(verificationService.verificationCode(code.getCode())) {
             //후보자 리스트 반환
-            if(code.length() < 2) return voteService.voteList(Integer.parseInt(code));
-            else return voteService.voteList(Integer.parseInt(code.substring(0,2)));
+            if(code.getCode().length() < 2) return voteService.voteList(Integer.parseInt(code.getCode()));
+            else return voteService.voteList(Integer.parseInt(code.getCode().substring(0,2)));
         }else {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("message", "FAIL");

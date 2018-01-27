@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @ToString(exclude = "candidates")
 @EqualsAndHashCode(exclude = "candidates")
-public class VOTE {
+public class VOTEINFO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,6 @@ public class VOTE {
     private Date endTime;
     private int target;
 
-    @OneToMany(mappedBy = "vote")
+    @OneToMany(mappedBy = "voteInfo")
     List<CANDIDATE> candidates;
 }

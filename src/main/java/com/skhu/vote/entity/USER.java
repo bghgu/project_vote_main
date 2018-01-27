@@ -17,8 +17,7 @@ import java.io.Serializable;
 public class USER {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
     private String name;
     private int userType;
     private String tel;

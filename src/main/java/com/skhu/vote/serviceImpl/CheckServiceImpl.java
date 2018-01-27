@@ -18,7 +18,7 @@ public class CheckServiceImpl implements CheckService{
     UserRepository userRepository;
 
     @Override
-    public JSONObject checkId(int id) {
+    public JSONObject checkId(String id) {
         USER user = userRepository.findById(id);
         JSONObject jsonObject = new JSONObject();
         if(user != null) {

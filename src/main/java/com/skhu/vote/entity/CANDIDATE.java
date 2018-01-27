@@ -12,21 +12,22 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@ToString(exclude = "vote")
-@EqualsAndHashCode(exclude = "vote")
+@ToString(exclude = "voteInfo")
+@EqualsAndHashCode(exclude = "voteInfo")
 public class CANDIDATE {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int candidateId;
-    private String name;
-    private String departmentName;
-    private String position;
     private String campName;
-    private String photoUrl;
+    private String leaderName;
+    private String leaderDeptName;
+    private String subLeaderName;
+    private String subLeaderDeptName;
+    private String photo;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "voteId")
-    VOTE vote;
+    VOTEINFO voteInfo;
 }
