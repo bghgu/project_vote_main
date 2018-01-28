@@ -7,6 +7,8 @@ import com.skhu.vote.utils.CodeQueue;
 import org.hibernate.annotations.Check;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -52,8 +54,10 @@ public class emcController {
     }
 
     @GetMapping("")
-    public String test() {
-        CodeQueue.all();
+    public String test(HttpHeaders httpHeaders) {
+        System.out.println(httpHeaders.toString());
+        httpHeaders.getLocation();
+        System.out.println(httpHeaders.getLocation());
         return "1";
     }
 }
