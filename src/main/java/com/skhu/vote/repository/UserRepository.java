@@ -11,9 +11,9 @@ import org.springframework.data.repository.query.Param;
  */
 
 public interface UserRepository extends JpaRepository<USER, Integer> {
-    USER findById(String id);
+    USER findById(final String id);
 
     @Modifying
-    @Query("UPDATE USER u set u.voteCheck = 1 where u.id = :id")
-    void updateCheck(@Param("id") String id);
+    @Query("UPDATE USER u set u.confirmCheck = 1 where u.id = :id")
+    void updateCheck(@Param("id") final String id);
 }

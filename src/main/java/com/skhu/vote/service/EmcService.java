@@ -7,6 +7,6 @@ import com.skhu.vote.model.DefaultResponse;
  */
 
 public interface EmcService {
-    DefaultResponse checkId(final String id);
-    DefaultResponse voterConfirmation(final String id);
+    DefaultResponse getUser(final String id);
+    DefaultResponse saveAuth(final String id);
 }

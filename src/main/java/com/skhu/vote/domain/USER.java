@@ -20,7 +20,7 @@ public class USER {
     private String name;
     private int userType;
     private String tel;
-    private int voteCheck;
+    private int confirmCheck;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "departmentId")

@@ -33,7 +33,7 @@ public class emcController {
 
     @GetMapping("test")
     public ResponseEntity<DefaultResponse> test2() {
-        DefaultResponse response = emcService.checkId("201232016");
+        DefaultResponse response = emcService.getUser("201232016");
         //헤더값 설정 가능
         HttpHeaders httpHeaders = new HttpHeaders();
         return new ResponseEntity<DefaultResponse>(response, httpHeaders, HttpStatus.BAD_REQUEST);
@@ -46,17 +46,17 @@ public class emcController {
     //값이 없을 경우 오류 메시지
     @PostMapping("check")
     public ResponseEntity<DefaultResponse> checkUser(@RequestBody IdRequest id) {
-        DefaultResponse response = emcService.checkId(id.getId());
+        DefaultResponse response = emcService.getUser(id.getId());
         return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
     }
 
     //인증번호 부여
     //유권자 학번으로 확인
-    //6자리 인증번호 반환
+    //8자리 인증번호 반환
     @PostMapping("confirm")
     @Transactional
     public ResponseEntity<DefaultResponse> confirmUser (@RequestBody IdRequest id) {
-        DefaultResponse response = emcService.voterConfirmation(id.getId());
+        DefaultResponse response = emcService.saveAuth(id.getId());
         return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
     }
 }
