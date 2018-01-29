@@ -35,7 +35,7 @@ public class ConfirmServiceImpl implements ConfirmService{
             jsonObject.put("message", "SUCCESS");
         }else {
             jsonObject.put("message", "FAIL");
-            jsonObject.put("mes", "잠시후 다시 시도해 주세요.");
+            jsonObject.put("authCode", null);
         }
         return jsonObject;
     }

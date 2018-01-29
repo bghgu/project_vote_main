@@ -6,6 +6,7 @@ import com.skhu.vote.service.VoteInfoService;
 import lombok.Data;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -52,5 +53,4 @@ public class voteController {
             return jsonObject;
         }
     }
-
 }

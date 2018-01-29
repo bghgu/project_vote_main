@@ -1,10 +1,10 @@
 package com.skhu.vote.service;
 
-import org.json.simple.JSONObject;
+import com.skhu.vote.model.DefaultResponse;
 
 /**
  * Created by ds on 2018-01-23.
  */
 public interface CheckService {
-    JSONObject checkId(String id);
+    DefaultResponse checkId(String id);
 }
