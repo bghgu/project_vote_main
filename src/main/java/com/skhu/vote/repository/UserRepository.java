@@ -1,6 +1,6 @@
 package com.skhu.vote.repository;
 
-import com.skhu.vote.entity.USER;
+import com.skhu.vote.domain.USER;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

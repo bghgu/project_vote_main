@@ -9,12 +9,12 @@ import lombok.Data;
 @Data
 public class DefaultResponse {
 
-    private Status status;
+    private StatusEnum status;
     private Object data;
     private String msg;
 
     public DefaultResponse() {
-        this.status = Status.FAIL;
+        this.status = StatusEnum.FAIL;
         this.data = null;
         this.msg = null;
     }

@@ -1,6 +1,6 @@
 package com.skhu.vote.repository;
 
-import com.skhu.vote.entity.VOTEINFO;
+import com.skhu.vote.domain.VOTEINFO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

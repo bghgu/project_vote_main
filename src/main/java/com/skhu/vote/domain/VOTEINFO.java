@@ -1,4 +1,4 @@
-package com.skhu.vote.entity;
+package com.skhu.vote.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

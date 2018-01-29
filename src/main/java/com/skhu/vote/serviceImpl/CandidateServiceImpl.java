@@ -1,6 +1,6 @@
 package com.skhu.vote.serviceImpl;
 
-import com.skhu.vote.entity.CANDIDATE;
+import com.skhu.vote.domain.CANDIDATE;
 import com.skhu.vote.service.CandidateService;
 import org.springframework.stereotype.Service;
 

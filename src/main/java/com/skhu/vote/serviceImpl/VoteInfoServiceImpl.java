@@ -1,6 +1,6 @@
 package com.skhu.vote.serviceImpl;
 
-import com.skhu.vote.entity.VOTEINFO;
+import com.skhu.vote.domain.VOTEINFO;
 import com.skhu.vote.repository.VoteInfoRepository;
 import com.skhu.vote.service.VoteInfoService;
 import org.json.simple.JSONObject;

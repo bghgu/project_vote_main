@@ -1,11 +1,10 @@
-package com.skhu.vote.entity;
+package com.skhu.vote.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Created by ds on 2018-01-20.

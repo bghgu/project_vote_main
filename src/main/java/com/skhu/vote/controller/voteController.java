@@ -1,12 +1,11 @@
 package com.skhu.vote.controller;
 
+import com.skhu.vote.model.AuthCodeRequest;
 import com.skhu.vote.service.CandidateService;
 import com.skhu.vote.service.VerificationService;
 import com.skhu.vote.service.VoteInfoService;
-import lombok.Data;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -34,15 +33,10 @@ public class voteController {
     @Autowired
     VoteInfoService voteService;
 
-    @Data
-    public static class AuthCode {
-        private String code;
-    }
-
     //유권자 인증번호 로그인
     //유권자에 맞게 후보자 리스트 반환
     @PostMapping("access")
-    public JSONObject access(@RequestBody AuthCode code) {
+    public JSONObject access(@RequestBody AuthCodeRequest code) {
         if(verificationService.verificationCode(code.getCode())) {
             //후보자 리스트 반환
             if(code.getCode().length() < 2) return voteService.voteList(Integer.parseInt(code.getCode()));

@@ -1,6 +1,6 @@
 package com.skhu.vote.service;
 
-import com.skhu.vote.entity.CANDIDATE;
+import com.skhu.vote.domain.CANDIDATE;
 
 import java.util.List;
 

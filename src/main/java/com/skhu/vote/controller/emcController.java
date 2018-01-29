@@ -1,15 +1,11 @@
 package com.skhu.vote.controller;
 
-import com.skhu.vote.entity.USER;
 import com.skhu.vote.model.DefaultResponse;
-import com.skhu.vote.service.CheckService;
-import com.skhu.vote.service.ConfirmService;
-import com.skhu.vote.utils.CodeQueue;
-import org.hibernate.annotations.Check;
-import org.json.simple.JSONObject;
+import com.skhu.vote.model.IdRequest;
+import com.skhu.vote.service.EmcService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,23 +29,25 @@ import javax.transaction.Transactional;
 public class emcController {
 
     @Autowired
-    CheckService checkService;
+    EmcService emcService;
 
-    @Autowired
-    ConfirmService confirmService;
+    @GetMapping("test")
+    public ResponseEntity<DefaultResponse> test2() {
+        DefaultResponse response = emcService.checkId("201232016");
+        //헤더값 설정 가능
+        HttpHeaders httpHeaders = new HttpHeaders();
+        return new ResponseEntity<DefaultResponse>(response, httpHeaders, HttpStatus.BAD_REQUEST);
+    }
+
 
     //유권자 확인
     //유권자의 학번으로 확인
     //값이 있을 경우 사용자 정보
     //값이 없을 경우 오류 메시지
     @PostMapping("check")
-    public DefaultResponse check(@RequestBody USER user) {
-        return checkService.checkId(user.getId());
-    }
-
-    @PostMapping("check2")
-    public ResponseEntity<DefaultResponse> check2(@RequestBody USER user) {
-        return new ResponseEntity<DefaultResponse>(checkService.checkId(user.getId()), HttpStatus.OK);
+    public ResponseEntity<DefaultResponse> checkUser(@RequestBody IdRequest id) {
+        DefaultResponse response = emcService.checkId(id.getId());
+        return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
     }
 
     //인증번호 부여
@@ -57,15 +55,8 @@ public class emcController {
     //6자리 인증번호 반환
     @PostMapping("confirm")
     @Transactional
-    public JSONObject confirm (@RequestBody USER user) {
-        return confirmService.voterConfirmation(user.getId());
-    }
-
-    @GetMapping("")
-    public String test(HttpHeaders httpHeaders) {
-        System.out.println(httpHeaders.toString());
-        httpHeaders.getLocation();
-        System.out.println(httpHeaders.getLocation());
-        return "1";
+    public ResponseEntity<DefaultResponse> confirmUser (@RequestBody IdRequest id) {
+        DefaultResponse response = emcService.voterConfirmation(id.getId());
+        return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
     }
 }
