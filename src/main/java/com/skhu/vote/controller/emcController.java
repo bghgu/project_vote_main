@@ -31,6 +31,10 @@ public class emcController {
     @Autowired
     EmcService emcService;
 
+    //선관위 로그인
+    //JWT 토큰 사용
+    //헤더 검사
+
     @GetMapping("test")
     public ResponseEntity<DefaultResponse> test2() {
         DefaultResponse response = emcService.getUser("201232016");

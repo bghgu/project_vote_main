@@ -1,0 +1,19 @@
+### GET emc/test
+GET http://127.0.0.1:8080/emc/test
+
+### POST emc/check
+POST http://127.0.0.1:8080/emc/check
+Content-Type: application/json
+
+< ./emc.json
+
+### POST emc/confirm
+POST http://127.0.0.1:8080/emc/confirm
+Content-Type: application/json
+
+< ./emc.json
+
+### POST emc/login
+### POST http://127.0.0.1:8080/emc/login
+### Content-Type: application/json
+### < ./login.json
