@@ -34,24 +34,8 @@ public class voteController {
     @PostMapping("access")
     public ResponseEntity<DefaultResponse> access(@RequestBody AuthCodeRequest code) {
         DefaultResponse response = new DefaultResponse();
-        //코드 존재
-        if(voteService.isAuthCodeExist(code.getCode())) {
-            response.setMsg("success");
-        }
-        //코드 미존재
-        else {
-            response.setMsg("fail");
-        }
+        if(voteService.isAuthCodeExist(code.getCode())) response = voteService.getVoteList(code.getCode());
+        else response.setMsg("등록된 인증번호가 아닙니다.");
         return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
     }
-
-     /*if(voteService.verificationCode(code.getCode())) {
-        //후보자 리스트 반환
-        if(code.getCode().length() < 2) return voteService.voteList(Integer.parseInt(code.getCode()));
-        else return voteService.voteList(Integer.parseInt(code.getCode().substring(0,2)));
-    }else {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("message", "FAIL");
-        return jsonObject;
-    }*/
 }

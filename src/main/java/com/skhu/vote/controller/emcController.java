@@ -31,10 +31,6 @@ public class emcController {
     @Autowired
     EmcService emcService;
 
-    //선관위 로그인
-    //JWT 토큰 사용
-    //헤더 검사
-
     @GetMapping("test")
     public ResponseEntity<DefaultResponse> test2() {
         DefaultResponse response = emcService.getUser("201232016");
@@ -43,14 +39,33 @@ public class emcController {
         return new ResponseEntity<DefaultResponse>(response, httpHeaders, HttpStatus.BAD_REQUEST);
     }
 
+    @PostMapping("test1")
+    public ResponseEntity<DefaultResponse> test1(@RequestBody IdRequest id) {
+        DefaultResponse response = new DefaultResponse();
+        //헤더값 설정 가능
+        HttpHeaders httpHeaders = new HttpHeaders();
+        return new ResponseEntity<DefaultResponse>(response, httpHeaders, HttpStatus.BAD_REQUEST);
+    }
+
+    //선관위 로그인
+    //JWT 토큰 사용
+    //헤더 검사
+    @PostMapping("login")
+    public ResponseEntity<DefaultResponse> login(@RequestHeader("Authorization") final String jwt) {
+        DefaultResponse response = new DefaultResponse();
+
+        return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
+    }
 
     //유권자 확인
     //유권자의 학번으로 확인
     //값이 있을 경우 사용자 정보
     //값이 없을 경우 오류 메시지
-    @PostMapping("check")
-    public ResponseEntity<DefaultResponse> checkUser(@RequestBody IdRequest id) {
-        DefaultResponse response = emcService.getUser(id.getId());
+    @GetMapping("check/{id}")
+    //@Auth
+    //@RequestHeader("Authorization") final String jwt
+    public ResponseEntity<DefaultResponse> checkUser(@PathVariable("id") final String id) {
+        DefaultResponse response = emcService.getUser(id);
         return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
     }
 

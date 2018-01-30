@@ -15,103 +15,120 @@ Content-Type: application/json
 #### 설명
 ```json
 {
-    "code": "선관위로 부터 부여 받은 6자리 인증번호"
+    "code": "선관위로 부터 부여 받은 8자리 인증번호(영문소문자 + 숫자)"
 }
 ```
 #### 예
 ```json
 {
-    "code": "420000"
+    "code": "00000000"
 }
 ```
 ### 응답 바디
 #### 유권자가 투표 해야 할 리스트 및 해당 투표 후보자 리스트
 ```json
 {
-    "voteList": [
+    "status": "SUCCESS",
+    "data": [
         {
             "voteId": 1,
-            "voteName": "총학생회장 투표",
-            "startTime": 1514732400000,
-            "endTime": 1517324400000,
+            "voteName": "총학생회선거",
+            "startTime": 1514764800000,
+            "endTime": 1517389200000,
             "target": 1,
             "candidates": [
                 {
                     "candidateId": 1,
-                    "name": "학생1",
-                    "departmentName": "소프트웨어공학과",
-                    "position": "총학생회장",
-                    "campName": "선본이름",
-                    "photoUrl": "사진URl"
+                    "campName": "선본1",
+                    "leaderName": "회장1",
+                    "leaderDeptName": "소프",
+                    "subLeaderName": "부회장1",
+                    "subLeaderDeptName": "소프",
+                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
                 },
                 {
                     "candidateId": 2,
-                    "name": "학생2",
-                    "departmentName": "정보통신공학과",
-                    "position": "부총학생회장",
-                    "campName": "선본이름",
-                    "photoUrl": "사진URL"
+                    "campName": "선본2",
+                    "leaderName": "회장2",
+                    "leaderDeptName": "정통",
+                    "subLeaderName": "부회장2",
+                    "subLeaderDeptName": "정통",
+                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
                 }
             ]
         },
         {
             "voteId": 2,
-            "voteName": "IT학부회장 투표",
-            "startTime": 1514732400000,
-            "endTime": 1517324400000,
+            "voteName": "IT학부선거",
+            "startTime": 1514764800000,
+            "endTime": 1517389200000,
             "target": 40,
             "candidates": [
                 {
                     "candidateId": 3,
-                    "name": "학생3",
-                    "departmentName": "컴퓨터공학과",
-                    "position": "IT학부회장",
-                    "campName": "선본이름",
-                    "photoUrl": "사진URL"
+                    "campName": "선본3",
+                    "leaderName": "IT학부회장1",
+                    "leaderDeptName": "소프",
+                    "subLeaderName": "IT학부부회장1",
+                    "subLeaderDeptName": "소프",
+                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
                 },
                 {
                     "candidateId": 4,
-                    "name": "학생4",
-                    "departmentName": "글로컬IT학과",
-                    "position": "IT학부회장",
-                    "campName": "선본이름",
-                    "photoUrl": "사진URL"
+                    "campName": "선본4",
+                    "leaderName": "IT학부회장2",
+                    "leaderDeptName": "글티",
+                    "subLeaderName": "IT학부부회장1",
+                    "subLeaderDeptName": "글티",
+                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
                 }
             ]
         },
         {
             "voteId": 3,
-            "voteName": "소프트웨어공학전공대표 투표",
-            "startTime": 1514732400000,
-            "endTime": 1517324400000,
+            "voteName": "소프트웨어공학전공선거",
+            "startTime": 1514764800000,
+            "endTime": 1517389200000,
             "target": 42,
             "candidates": [
                 {
                     "candidateId": 5,
-                    "name": "학생5",
-                    "departmentName": "소프트웨어공학과",
-                    "position": "전공대표",
-                    "campName": "선본이름",
-                    "photoUrl": "사진URL"
+                    "campName": "선본5",
+                    "leaderName": "소프대표1",
+                    "leaderDeptName": "소프",
+                    "subLeaderName": "소프부대표1",
+                    "subLeaderDeptName": "소프",
+                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
                 },
                 {
                     "candidateId": 6,
-                    "name": "학생6",
-                    "departmentName": "소프트웨어공학과",
-                    "position": "전공대표",
-                    "campName": "선본이름",
-                    "photoUrl": "사진URL"
+                    "campName": "선본6",
+                    "leaderName": "소프대표2",
+                    "leaderDeptName": "소프",
+                    "subLeaderName": "소프부대표2",
+                    "subLeaderDeptName": "소프",
+                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
                 }
             ]
         }
     ],
-    "message": "SUCCESS"
+    "msg": "투표 및 후보자 리스트"
 }
  ```
-#### 유권자 인증 실패
+#### 인증번호 인증 실패
  ```json
 {
-    "message": "FAIL"
+    "status": "FAIL",
+    "data": null,
+    "msg": "등록된 인증번호가 아닙니다."
 }
-  ```
+```
+#### 투표 및 후보자 리스트 없음
+```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "투표 및 후보자 리스트가 없습니다."
+}
+```
 ---

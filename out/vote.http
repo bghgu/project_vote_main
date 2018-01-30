@@ -1,0 +1,7 @@
+### POST vote/access
+POST http://127.0.0.1:8080/vote/access
+Content-Type: application/json
+
+< ./access.json
+
+###

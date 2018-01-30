@@ -8,5 +8,5 @@ import com.skhu.vote.model.DefaultResponse;
 
 public interface VoteService{
     boolean isAuthCodeExist(final String code);
-    DefaultResponse getVoteList(final int deptId);
+    DefaultResponse getVoteList(final String code);
 }
