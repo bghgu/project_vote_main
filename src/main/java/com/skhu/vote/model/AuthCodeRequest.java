@@ -9,4 +9,8 @@ import lombok.Data;
 @Data
 public class AuthCodeRequest {
     private String code;
+
+    public AuthCodeRequest() {
+        this.code = "";
+    }
 }
