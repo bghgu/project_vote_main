@@ -6,7 +6,7 @@ import com.skhu.vote.model.DefaultResponse;
 /**
  * Created by ds on 2018-01-30.
  */
-public class voterCheck {
+public class voterCheckUtils {
     public static DefaultResponse check(final USER user) {
         DefaultResponse response = new DefaultResponse();
         if (user == null) response.setMsg("등록된 학생이 없습니다.");

@@ -2,8 +2,12 @@ package com.skhu.vote.controller;
 
 import com.skhu.vote.model.DefaultResponse;
 import com.skhu.vote.model.IdRequest;
+import com.skhu.vote.model.LoginAdmin;
+import com.skhu.vote.model.LoginRequest;
 import com.skhu.vote.service.EmcService;
 
+import com.skhu.vote.service.JwtService;
+import com.skhu.vote.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,17 +32,28 @@ import javax.transaction.Transactional;
 @RequestMapping("emc")
 public class emcController {
 
+    private static final String HEADER = "Authorization";
+
     @Autowired
     EmcService emcService;
+
+    @Autowired
+    LoginService loginService;
+
+    @Autowired
+    JwtService jwtService;
 
     //선관위 로그인
     //JWT 토큰 사용
     //헤더 검사
     @PostMapping("login")
-    public ResponseEntity<DefaultResponse> login(@RequestHeader("Authorization") final String jwt) {
+    public ResponseEntity<DefaultResponse> login(@RequestBody LoginRequest loginRequest) {
         DefaultResponse response = new DefaultResponse();
+        HttpHeaders headers = new HttpHeaders();
+        LoginAdmin loginAdmin = loginService.login(loginRequest);
 
-        return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
+        headers.set(HEADER, jwtService.createToken(loginAdmin));
+        return new ResponseEntity<DefaultResponse>(response, headers, HttpStatus.OK);
     }
 
     @GetMapping("check/{id}")

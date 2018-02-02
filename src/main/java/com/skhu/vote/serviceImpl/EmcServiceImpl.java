@@ -9,7 +9,7 @@ import com.skhu.vote.repository.UserRepository;
 import com.skhu.vote.service.EmcService;
 import com.skhu.vote.utils.AuthCodeUtils;
 
-import com.skhu.vote.utils.voterCheck;
+import com.skhu.vote.utils.voterCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -31,7 +31,7 @@ public class EmcServiceImpl implements EmcService {
     @Override
     public DefaultResponse getUser(final String id) {
         USER user = userRepository.findById(id);
-        DefaultResponse response = voterCheck.check(user);
+        DefaultResponse response = voterCheckUtils.check(user);
         if(response.getMsg() == null) {
             response.setStatus(StatusEnum.SUCCESS);
             response.setData(user);
@@ -44,7 +44,7 @@ public class EmcServiceImpl implements EmcService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public DefaultResponse saveAuth(final String id) {
         USER user = userRepository.findById(id);
-        DefaultResponse response = voterCheck.check(user);
+        DefaultResponse response = voterCheckUtils.check(user);
         if(response.getMsg() == null) {
             //학과 코드 반환
             int departmentId = user.getDepartment().getDepartmentId();
