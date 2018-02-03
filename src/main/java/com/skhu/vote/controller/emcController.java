@@ -1,9 +1,6 @@
 package com.skhu.vote.controller;
 
-import com.skhu.vote.model.DefaultResponse;
-import com.skhu.vote.model.IdRequest;
-import com.skhu.vote.model.LoginAdmin;
-import com.skhu.vote.model.LoginRequest;
+import com.skhu.vote.model.*;
 import com.skhu.vote.service.EmcService;
 
 import com.skhu.vote.service.JwtService;
@@ -14,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 /**
@@ -43,22 +42,17 @@ public class emcController {
     @Autowired
     JwtService jwtService;
 
-    //선관위 로그인
-    //JWT 토큰 사용
-    //헤더 검사
     @PostMapping("login")
-    public ResponseEntity<DefaultResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<DefaultResponse> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
         DefaultResponse response = new DefaultResponse();
         HttpHeaders headers = new HttpHeaders();
-        LoginAdmin loginAdmin = loginService.login(loginRequest);
-
-        headers.set(HEADER, jwtService.createToken(loginAdmin));
+        headers.set(HEADER, jwtService.createToken(loginService.login(loginRequest), request));
+        response.setStatus(StatusEnum.SUCCESS);
+        response.setMsg("로그인 성공");
         return new ResponseEntity<DefaultResponse>(response, headers, HttpStatus.OK);
     }
 
     @GetMapping("check/{id}")
-    //@Auth
-    //@RequestHeader("Authorization") final String jwt
     public ResponseEntity<DefaultResponse> checkUser(@PathVariable("id") final String id) {
         DefaultResponse response = emcService.getUser(id);
         return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);

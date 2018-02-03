@@ -12,6 +12,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+    private static final String[] EXCLUDE_PATH = {
+            "/no-session",
+            "/session-error",
+            "/no-token",
+            "/token-error",
+            "/unValued-token",
+            "/emc/login"
+    };
+
     @Autowired
     private JwtInterceptor jwtInterceptor;
 
@@ -19,6 +28,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/emc/login");
+                .excludePathPatterns(EXCLUDE_PATH);
     }
 }

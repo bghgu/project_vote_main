@@ -10,6 +10,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,14 +29,22 @@ public class JWTServiceImpl implements JwtService{
     private String SALT;
 
     @Override
-    public <T> String createToken(final T data) {
+    public <T> String createToken(final T data, final HttpServletRequest request) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.HOUR, 1);
         String jwt = Jwts.builder()
                 .setHeaderParam("type", "JWT")
                 .setHeaderParam("regDate", System.currentTimeMillis())
-                .setSubject("user")
+                .setId("emc")
+                .setExpiration(cal.getTime())
+                //.setExpiration(new Date())
                 .claim("auth", data)
+                //.signWith(SignatureAlgorithm.HS512, "1234")
                 .signWith(SignatureAlgorithm.HS512, SHA512EncryptUtils.encrypt(SALT))
                 .compact();
+        HttpSession session = request.getSession(true);
+        session.setAttribute("jwt", jwt);
         return jwt;
     }
 
@@ -45,7 +58,7 @@ public class JWTServiceImpl implements JwtService{
                     .setSigningKey(SALT.getBytes("UTF-8"))
                     .parseClaimsJws(jwt);
         } catch (Exception e) {
-            throw new UnauthorizedException();
+            //throw new UnauthorizedException();
         }
         @SuppressWarnings("unchecked")
         Map<String, Object> value = (LinkedHashMap<String, Object>)claims.getBody().get(key);
@@ -65,7 +78,8 @@ public class JWTServiceImpl implements JwtService{
                     .parseClaimsJws(jwt);
             return true;
         }catch (Exception e) {
-            throw new UnauthorizedException();
+            return false;
+            //throw new UnauthorizedException();
         }
     }
 }

@@ -1,13 +1,18 @@
 package com.skhu.vote.config;
 
+import com.skhu.vote.model.DefaultResponse;
+import com.skhu.vote.model.LoginAdmin;
 import com.skhu.vote.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by ds on 2018-02-02.
@@ -41,10 +46,35 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         final String token = request.getHeader(HEADER);
-        if(token != null && jwtService.isValuedToken(token)) {
+        HttpSession session = request.getSession(false);
+        //세션 확인
+        if(session == null) {
+            response.sendRedirect("/no-session");
+            return false;
+        }
+        //세션에 저장된 토큰 확인
+        String jwt = (String)session.getAttribute("jwt");
+        if(jwt == null) {
+            response.sendRedirect("/session-error");
+            return false;
+        }
+        //토큰 확인
+        if(token == null) {
+            response.sendRedirect("/no-token");
+            return false;
+        }
+        //세션에 저장된 토큰과 request 받은 토큰 비교
+        if(!token.equals(jwt)) {
+            response.sendRedirect("/unValued-token");
+            return false;
+        }
+        //토큰 검증
+        if(!jwtService.isValuedToken(token)) {
+            response.sendRedirect("/token-error");
+            return false;
+        }
+        else {
             return true;
-        }else {
-           throw new UnauthorizedException();
         }
     }
 
@@ -72,7 +102,6 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
     }
 
     /**

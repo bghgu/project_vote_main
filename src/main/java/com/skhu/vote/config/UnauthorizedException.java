@@ -15,6 +15,7 @@ package com.skhu.vote.config;
 
  5) IllegalArgumentException
  */
+
 public class UnauthorizedException extends RuntimeException {
 
     private static final long serialVersionUID = -8115971719976718589L;
