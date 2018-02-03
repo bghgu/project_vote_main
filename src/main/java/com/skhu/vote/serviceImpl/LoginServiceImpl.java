@@ -18,7 +18,7 @@ import java.util.Arrays;
  */
 
 @Service
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private AdminRepository adminRepository;
