@@ -7,6 +7,7 @@ import com.skhu.vote.model.Req.VoteReq;
 import com.skhu.vote.model.Res.DefaultRes;
 
 import com.skhu.vote.model.StatusEnum;
+import com.skhu.vote.service.BlockChainService;
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.SessionService;
 import com.skhu.vote.service.VoteService;
@@ -44,6 +45,9 @@ public class voteController {
 
     @Autowired
     JwtService jwtService;
+
+    @Autowired
+    BlockChainService blockChainService;
 
     /**
      * 1. 인증 코드로 현재 토큰이 발급되있는지 검사(로그인 체크)
@@ -94,7 +98,7 @@ public class voteController {
         DefaultRes response = new DefaultRes();
         if(!sessionService.isSession(voteReq.getCode())) response.setMsg("해당 인증코드는 사용하실 수 없습니다.");
         else {
-            if(voteService.isAuthCodeExist(voteReq.getCode())) response.setMsg("존재하지 않는 인증코드 입니다.");
+            if(!voteService.isAuthCodeExist(voteReq.getCode())) response.setMsg("존재하지 않는 인증코드 입니다.");
             else {
                 if(voteService.isVoteCheck(voteReq.getCode())) response.setMsg("이미 투표를 진행했습니다.");
                 else {
@@ -104,7 +108,7 @@ public class voteController {
                             if(candidateReq.getVoteId() < 1 || candidateReq.getCandidateId() < 1) response.setMsg("유효하지 않은 투표 값 입니다.");
                             else {
                                 //투표 값 삽입
-                                //
+                                blockChainService.insertBlock(candidateReq, voteReq.getCode());
                                 voteService.updateVoteCheck(voteReq.getCode());
                                 voteService.logout(voteReq.getCode());
                                 response.setStatus(StatusEnum.SUCCESS);

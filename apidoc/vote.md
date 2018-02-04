@@ -118,6 +118,14 @@ Content-Type: application/json
     "msg": "투표 및 후보자 리스트"
 }
  ```
+#### 중복 로그인 시도
+  ```json
+ {
+     "status": "FAIL",
+     "data": null,
+     "msg": "현재 로그인 중입니다."
+ }
+ ```
 #### 인증번호 인증 실패
  ```json
 {
@@ -134,12 +142,124 @@ Content-Type: application/json
     "msg": "투표 및 후보자 리스트가 없습니다."
 }
 ```
-#### 인증 코드 중복 로그인 시도
+#### 이미 투표를 진행 한 경우
 ```json
 {
     "status": "FAIL",
     "data": null,
-    "msg": "현재 로그인 중입니다."
+    "msg": "이미 투표를 진행했습니다."
 }
 ```
 ---
+## 투표
+
+메소드 | 경로 | 짧은 설명
+--- | --- | ---
+POST | / | 투표
+
+### 요청 헤더
+~~~
+Content-Type: application/json
+Authorization : JWT 토큰값
+~~~
+
+### 요청 바디
+#### 설명
+```json
+{
+    "code": "선관위로 부터 부여 받은 8자리 인증번호(영문소문자 + 숫자)",
+    "voteList" : [
+    		{
+    			"voteId" : "투표 고유 번호(자연수의 Integer)",
+    			"candidateId" : "투표 고유 번호(자연수의 Integer)"
+    		},
+    		{
+                "voteId" : "투표 고유 번호(자연수의 Integer)",
+                "candidateId" : "투표 고유 번호(자연수의 Integer)"
+            },
+    		{
+                "voteId" : "투표 고유 번호(자연수의 Integer)",
+                "candidateId" : "투표 고유 번호(자연수의 Integer)"
+            }
+    ]
+}
+```
+#### 예
+```json
+{
+	"code" : "00000000",
+	"voteList" : [
+		{
+			"voteId" : 1,
+			"candidateId" : 1
+		},
+		{
+			"voteId" : 2,
+			"candidateId" : 3
+		},
+		{
+			"voteId" : 3,
+			"candidateId" : 7
+		}
+	]
+}
+```
+### 응답 바디
+#### 투표 성공
+```json
+{
+    "status": "SUCCESS",
+    "data": null,
+    "msg": "투표가 성공적으로 끝났습니다."
+}
+ ```
+#### 잘못된 접근
+ ```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "해당 인증코드는 사용하실 수 없습니다."
+}
+```
+#### 인증코드 오류
+ ```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "존재하지 않는 인증코드 입니다."
+}
+```
+#### 이미 투표를 진행한 경우
+ ```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "이미 투표를 진행했습니다."
+}
+```
+#### 빈 투표 값
+```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "투표 값이 없습니다."
+}
+```
+#### 유효하지 않은 투표 값
+```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "유효하지 않은 투표 값 입니다."
+}
+```
+#### 토큰 값 오류
+```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "session-token-error"
+}
+```
+---
+
