@@ -23,11 +23,17 @@ public class LoginAdmin implements Serializable {
     private String name;
     private int type;
     private String roles;
+    private boolean check;
+
+    public LoginAdmin(final boolean check) {
+        this.check = check;
+    }
 
     public LoginAdmin(final ADMIN admin) {
         this.id = admin.getId();
         this.name = admin.getName();
         this.type = admin.getType();
+        this.check = false;
     }
 
     public void setRoles(final String roles) {

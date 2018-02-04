@@ -43,13 +43,22 @@ public class emcController {
     JwtService jwtService;
 
     @PostMapping("login")
-    public ResponseEntity<DefaultResponse> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
+    public ResponseEntity<DefaultResponse> login(@RequestBody LoginRequest loginRequest) {
         DefaultResponse response = new DefaultResponse();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HEADER, jwtService.createToken(loginService.login(loginRequest), request));
-        response.setStatus(StatusEnum.SUCCESS);
-        response.setMsg("로그인 성공");
-        return new ResponseEntity<DefaultResponse>(response, headers, HttpStatus.OK);
+        LoginAdmin loginAdmin = (loginService.login(loginRequest));
+        if(loginAdmin == null) {
+            response.setMsg("로그인 실패");
+        }
+        else {
+            if(loginAdmin.isCheck()) {
+                response.setMsg("이미 접속중입니다.");
+            }else {
+                response.setStatus(StatusEnum.SUCCESS);
+                response.setData(jwtService.createToken(loginAdmin));
+                response.setMsg("로그인 성공");
+            }
+        }
+        return new ResponseEntity<DefaultResponse>(response, HttpStatus.OK);
     }
 
     @GetMapping("check/{id}")

@@ -1,11 +1,8 @@
 package com.skhu.vote.config;
 
-import com.skhu.vote.model.DefaultResponse;
-import com.skhu.vote.model.LoginAdmin;
 import com.skhu.vote.service.JwtService;
+import com.skhu.vote.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -33,6 +30,9 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private SessionService sessionService;
+
     /**
      * 컨트롤러 메소드 실행 직전에 수행
      * true 를 반환하면 계속 진행이 되고  false 를 리턴하면 실행 체인(다른 인터셉터, 컨트롤러 실행)이 중지되고 반환
@@ -47,30 +47,32 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         final String token = request.getHeader(HEADER);
         HttpSession session = request.getSession(false);
+
+        //System.out.println(jwtService.getAuthId(token));
+
         //세션 확인
         if(session == null) {
             response.sendRedirect("/no-session");
             return false;
         }
-        //세션에 저장된 토큰 확인
-        String jwt = (String)session.getAttribute("jwt");
-        if(jwt == null) {
-            response.sendRedirect("/session-error");
-            return false;
-        }
-        //토큰 확인
+        //토큰 넘어왔는지 확인
         if(token == null) {
             response.sendRedirect("/no-token");
-            return false;
-        }
-        //세션에 저장된 토큰과 request 받은 토큰 비교
-        if(!token.equals(jwt)) {
-            response.sendRedirect("/unValued-token");
             return false;
         }
         //토큰 검증
         if(!jwtService.isValuedToken(token)) {
             response.sendRedirect("/token-error");
+            return false;
+        }
+        //세션에 저장된 토큰 확인
+        if(!sessionService.isSession(token)) {
+            response.sendRedirect("/session-error");
+            return false;
+        }
+        //세션에 저장된 토큰과 request 받은 토큰 비교
+        if(!sessionService.getSession(token).equals(token)) {
+            response.sendRedirect("/unValued-token");
             return false;
         }
         else {

@@ -31,7 +31,7 @@ Content-Type : application/json
 ```json
 {
     "status": "SUCCESS",
-    "data": "JWT 토큰값?",
+    "data": "eyJ0eXBlIjoiSldUIiwicmVnRGF0ZSI6MTUxNzcxOTI5NjAyNywiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJlbWMiLCJleHAiOjE1MTc3MjI4OTYsImF1dGgiOnsiaWQiOiIxIiwibmFtZSI6IuuwsOuLpOyKrCIsInR5cGUiOjEsInJvbGVzIjoiUk9MRV9BRE1JTiJ9fQ.-Fan4_bx3Lngxacy4bXv57bO5vo6as6QPdHwWkgBy9FLBG-GmyQVi_ab0fisaSVULf7_fniK87r64ZMXD9B__A",
     "msg": "로그인 성공"
 }
  ```
@@ -44,6 +44,15 @@ Content-Type : application/json
 }
 ```
 ---
+#### 중복 로그인 시도
+ ```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "이미 접속중입니다."
+}
+```
+---
 ## 유권자 투표권 확인
 
 메소드 | 경로 | 짧은 설명
@@ -53,7 +62,7 @@ GET | /check | 유권자 확인
 ### 요청 헤더
 ~~~
 Content-Type : application/json
-Authorization : JWT 토큰값(미구현)
+Authorization : JWT 토큰값
 ~~~
 
 ### 요청 파라미터
@@ -110,7 +119,7 @@ Authorization : JWT 토큰값(미구현)
 {
     "status": "FAIL",
     "data": null,
-    "msg": "비인가 접근 오류"
+    "msg": "unValued-token"
 }
 ```
 ---
@@ -123,7 +132,7 @@ POST | /confirm | 투표 인증번호 발급
 ### 요청 헤더
 ~~~
 Content-Type : application/json
-Authorization : JWT 토큰값(미구현)
+Authorization : JWT 토큰값
 ~~~
 
 ### 요청 바디
@@ -193,7 +202,7 @@ Authorization : JWT 토큰값(미구현)
 {
     "status": "FAIL",
     "data": null,
-    "msg": "비인가 접근 오류"
+    "msg": "unValued-token"
 }
 ```
 ---

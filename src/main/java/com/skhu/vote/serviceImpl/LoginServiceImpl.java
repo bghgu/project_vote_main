@@ -5,9 +5,13 @@ import com.skhu.vote.model.LoginAdmin;
 import com.skhu.vote.model.LoginRequest;
 import com.skhu.vote.repository.AdminRepository;
 import com.skhu.vote.service.LoginService;
+import com.skhu.vote.service.SessionService;
 import com.skhu.vote.utils.SHA512EncryptUtils;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,14 +27,24 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private SessionService sessionService;
+
     @Override
     public LoginAdmin login(final LoginRequest loginRequest) {
         //SHA512EncryptUtils.encrypt)
         ADMIN admin = adminRepository.findByIdAndPassword(loginRequest.getId(), loginRequest.getPassword());
         if(admin == null) {
-
+            return null;
+        }else {
+            LoginAdmin loginAdmin = createUser(admin);
+            if(sessionService.isSession(loginAdmin.getId())) {
+                return new LoginAdmin(true);
+            }else {
+                sessionService.setSession(loginAdmin.getId(), loginAdmin);
+                return createUser(admin);
+            }
         }
-        return createUser(admin);
     }
 
     private LoginAdmin createUser(ADMIN admin) {
@@ -44,6 +58,5 @@ public class LoginServiceImpl implements LoginService {
         }
         return loginAdmin;
     }
-
 
 }
