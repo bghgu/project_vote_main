@@ -29,89 +29,92 @@ Content-Type: application/json
 ```json
 {
     "status": "SUCCESS",
-    "data": [
-        {
-            "voteId": 1,
-            "voteName": "총학생회선거",
-            "startTime": 1514764800000,
-            "endTime": 1517389200000,
-            "target": 1,
-            "candidates": [
-                {
-                    "candidateId": 1,
-                    "campName": "선본1",
-                    "leaderName": "회장1",
-                    "leaderDeptName": "소프",
-                    "subLeaderName": "부회장1",
-                    "subLeaderDeptName": "소프",
-                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
-                },
-                {
-                    "candidateId": 2,
-                    "campName": "선본2",
-                    "leaderName": "회장2",
-                    "leaderDeptName": "정통",
-                    "subLeaderName": "부회장2",
-                    "subLeaderDeptName": "정통",
-                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
-                }
-            ]
-        },
-        {
-            "voteId": 2,
-            "voteName": "IT학부선거",
-            "startTime": 1514764800000,
-            "endTime": 1517389200000,
-            "target": 40,
-            "candidates": [
-                {
-                    "candidateId": 3,
-                    "campName": "선본3",
-                    "leaderName": "IT학부회장1",
-                    "leaderDeptName": "소프",
-                    "subLeaderName": "IT학부부회장1",
-                    "subLeaderDeptName": "소프",
-                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
-                },
-                {
-                    "candidateId": 4,
-                    "campName": "선본4",
-                    "leaderName": "IT학부회장2",
-                    "leaderDeptName": "글티",
-                    "subLeaderName": "IT학부부회장1",
-                    "subLeaderDeptName": "글티",
-                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
-                }
-            ]
-        },
-        {
-            "voteId": 3,
-            "voteName": "소프트웨어공학전공선거",
-            "startTime": 1514764800000,
-            "endTime": 1517389200000,
-            "target": 42,
-            "candidates": [
-                {
-                    "candidateId": 5,
-                    "campName": "선본5",
-                    "leaderName": "소프대표1",
-                    "leaderDeptName": "소프",
-                    "subLeaderName": "소프부대표1",
-                    "subLeaderDeptName": "소프",
-                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
-                },
-                {
-                    "candidateId": 6,
-                    "campName": "선본6",
-                    "leaderName": "소프대표2",
-                    "leaderDeptName": "소프",
-                    "subLeaderName": "소프부대표2",
-                    "subLeaderDeptName": "소프",
-                    "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
-                }
-            ]
-        }
-    ],
+    "data": {
+        "jwt": "jwt 토큰값",
+        "list": [
+            {
+                "voteId": 1,
+                "voteName": "총학생회선거",
+                "startTime": 1514764800000,
+                "endTime": 1517389200000,
+                "target": 1,
+                "candidates": [
+                    {
+                        "candidateId": 1,
+                        "campName": "선본1",
+                        "leaderName": "회장1",
+                        "leaderDeptName": "소프",
+                        "subLeaderName": "부회장1",
+                        "subLeaderDeptName": "소프",
+                        "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
+                    },
+                    {
+                        "candidateId": 2,
+                        "campName": "선본2",
+                        "leaderName": "회장2",
+                        "leaderDeptName": "정통",
+                        "subLeaderName": "부회장2",
+                        "subLeaderDeptName": "정통",
+                        "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
+                    }
+                ]
+            },
+            {
+                "voteId": 2,
+                "voteName": "IT학부선거",
+                "startTime": 1514764800000,
+                "endTime": 1517389200000,
+                "target": 40,
+                "candidates": [
+                    {
+                        "candidateId": 3,
+                        "campName": "선본3",
+                        "leaderName": "IT학부회장1",
+                        "leaderDeptName": "소프",
+                        "subLeaderName": "IT학부부회장1",
+                        "subLeaderDeptName": "소프",
+                        "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
+                    },
+                    {
+                        "candidateId": 4,
+                        "campName": "선본4",
+                        "leaderName": "IT학부회장2",
+                        "leaderDeptName": "글티",
+                        "subLeaderName": "IT학부부회장1",
+                        "subLeaderDeptName": "글티",
+                        "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
+                    }
+                ]
+            },
+            {
+                "voteId": 3,
+                "voteName": "소프트웨어공학전공선거",
+                "startTime": 1514764800000,
+                "endTime": 1517389200000,
+                "target": 42,
+                "candidates": [
+                    {
+                        "candidateId": 5,
+                        "campName": "선본5",
+                        "leaderName": "소프대표1",
+                        "leaderDeptName": "소프",
+                        "subLeaderName": "소프부대표1",
+                        "subLeaderDeptName": "소프",
+                        "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
+                    },
+                    {
+                        "candidateId": 6,
+                        "campName": "선본6",
+                        "leaderName": "소프대표2",
+                        "leaderDeptName": "소프",
+                        "subLeaderName": "소프부대표2",
+                        "subLeaderDeptName": "소프",
+                        "photo": "https://s3.ap-northeast-2.amazonaws.com/project-vote/%ED%94%BC%EC%B9%B4%EC%B8%84.jpg"
+                    }
+                ]
+            }
+        ]
+    },
     "msg": "투표 및 후보자 리스트"
 }
  ```
@@ -129,6 +132,14 @@ Content-Type: application/json
     "status": "FAIL",
     "data": null,
     "msg": "투표 및 후보자 리스트가 없습니다."
+}
+```
+#### 인증 코드 중복 로그인 시도
+```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "현재 로그인 중입니다."
 }
 ```
 ---

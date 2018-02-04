@@ -49,14 +49,13 @@ public class VoteServiceImpl implements VoteService {
      */
     @Override
     @Transactional
-    public DefaultResponse getVoteList(final String code) {
-        DefaultResponse response = new DefaultResponse();
+    public List<VOTEINFO> getVoteList(final String code) {
         AUTH auth = authRepository.findByAuthCode(code);
         final int deptId = auth.getDepartmentId();
         final int deptId2 = (deptId / 10) * 10;
         List<VOTEINFO> voteList = voteInfoRepository.findByTargetOrTargetOrTarget(deptId, deptId2, 1);
         //List<VOTEINFO> voteList = voteInfoRepository.findByTargetOrTargetOrTarget(3, 3, 3);
-        if(voteList.size() == 0) response.setMsg("투표 및 후보자 리스트가 없습니다.");
+        if(voteList.size() == 0) return null;
         else {
             try {
                 updateLoginTime(code);
@@ -64,11 +63,8 @@ public class VoteServiceImpl implements VoteService {
             }catch (Exception e) {
                 //트랜잭션 처리
             }
-            response.setStatus(StatusEnum.SUCCESS);
-            response.setData(voteList);
-            response.setMsg("투표 및 후보자 리스트");
+            return voteList;
         }
-        return response;
     }
 
     /**

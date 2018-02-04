@@ -1,8 +1,10 @@
 package com.skhu.vote.controller;
 
+import com.skhu.vote.domain.VOTEINFO;
 import com.skhu.vote.model.AuthCodeRequest;
 import com.skhu.vote.model.DefaultResponse;
 
+import com.skhu.vote.model.StatusEnum;
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.SessionService;
 import com.skhu.vote.service.VoteService;
@@ -11,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -51,12 +58,20 @@ public class voteController {
         if(sessionService.isSession(code.getCode())) response.setMsg("현재 로그인 중입니다.");
         else {
             if(voteService.isAuthCodeExist(code.getCode())) {
-                //인증 코드 세션 저장
-                sessionService.setSession(code.getCode(), code);
-                //토큰 발급 및 토큰 세션 저장
-                jwtService.createToken(code, "voter");
                 //후보자 리스트 리턴
-                voteService.getVoteList(code.getCode());
+                List<VOTEINFO> voteList = voteService.getVoteList(code.getCode());
+                if(voteList == null) response.setMsg("투표 및 후보자 리스트가 없습니다.");
+                else {
+                    //인증 코드 세션 저장
+                    sessionService.setSession(code.getCode(), code);
+                    //토큰 발급 및 토큰 세션 저장
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("jwt", jwtService.createToken(code, "voter"));
+                    map.put("list", voteList);
+                    response.setStatus(StatusEnum.SUCCESS);
+                    response.setData(map);
+                    response.setMsg("투표 및 후보자 리스트");
+                }
             }
             else response.setMsg("등록된 인증번호가 아닙니다.");
         }
