@@ -9,4 +9,6 @@ import com.skhu.vote.model.DefaultResponse;
 public interface VoteService{
     boolean isAuthCodeExist(final String code);
     DefaultResponse getVoteList(final String code);
+    void updateLoginTime(final String code);
+    void updateLoginCheck(final int count, final String code);
 }

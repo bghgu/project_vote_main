@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * Created by ds on 2018-01-30.
@@ -21,6 +22,7 @@ public class AUTH {
     private int departmentId;
     private int loginCheck;
     private int voteCheck;
+    private Date loginTime;
 
     public AUTH(final String authCode, final int departmentId) {
         this.authCode = authCode;
