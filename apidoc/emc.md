@@ -206,4 +206,40 @@ Authorization : JWT 토큰값
 }
 ```
 ---
+## 선관위 로그아웃
+
+메소드 | 경로 | 짧은 설명
+--- | --- | ---
+GET | /logout | 로그아웃
+
+### 요청 헤더
+~~~
+Content-Type : application/json
+Authorization : JWT 토큰값
+~~~
+
+### 요청 파라미터
+#### 설명 
+`/emc/logout`
+#### 예 
+`bghgu.tk/emc/logout`
+
+### 응답 바디
+#### 로그아웃
+ ```json
+{
+    "status": "SUCCESS",
+    "data": null,
+    "msg": "안전하게 로그아웃이 되었습니다."
+}
+```
+#### 비인가 접근(JWT 토큰값 오류)
+ ```json
+{
+    "status": "FAIL",
+    "data": null,
+    "msg": "unValued-token"
+}
+```
+---
 

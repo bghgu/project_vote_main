@@ -32,7 +32,7 @@ public class ErrorController {
     @GetMapping("session-error")
     public ResponseEntity<DefaultResponse> sessionError() {
         DefaultResponse response = new DefaultResponse();
-        response.setMsg("session-error");
+        response.setMsg("session-token-error");
         return new ResponseEntity<DefaultResponse>(response, HttpStatus.UNAUTHORIZED);
     }
 

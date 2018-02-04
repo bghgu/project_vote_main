@@ -9,7 +9,7 @@ import java.util.Map;
  */
 
 public interface JwtService {
-    <T> String createToken(final T data);
+    <T> String createToken(final T data, final String key);
     Map<String, Object> getToken(final String key);
     String getAuthId(final String key);
     boolean isValuedToken(final String jwt);

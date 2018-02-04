@@ -36,19 +36,21 @@ public class JWTServiceImpl implements JwtService{
     /**
      * 토큰 생성
      * @param data
+     * 토큰 데이터
+     * @param key
+     * 토큰 키값,
+     * emc / voter
      * @param <T>
      * @return
      */
     @Override
-    public <T> String createToken(final T data) {
+    public <T> String createToken(final T data, final String key) {
         String jwt = Jwts.builder()
                 .setHeaderParam("type", "JWT")
                 .setHeaderParam("regDate", System.currentTimeMillis())
-                .setId("emc")
+                .setId(key)
                 //.setExpiration(getTime())
-                //.setExpiration(new Date())
-                .claim("auth", data)
-                //.signWith(SignatureAlgorithm.HS512, "1234")
+                .claim(key, data)
                 .signWith(SignatureAlgorithm.HS512, SHA512EncryptUtils.encrypt(SALT))
                 .compact();
         sessionService.setSession(jwt, jwt);
@@ -58,6 +60,7 @@ public class JWTServiceImpl implements JwtService{
     /**
      * 토큰 저장된 데이터 반환
      * @param key
+     * emc : 선관위용 토큰, voter : 유권자용 토큰
      * @return
      */
     @Override
@@ -72,12 +75,19 @@ public class JWTServiceImpl implements JwtService{
         } catch (Exception e) {
             //throw new UnauthorizedException();
         }
+        System.out.println(claims);
         @SuppressWarnings("unchecked")
         Map<String, Object> value = (LinkedHashMap<String, Object>)claims.getBody().get(key);
         return value;
     }
 
 
+    /**
+     * 토큰의 id 값 확인
+     * @param key
+     * emc / voter
+     * @return
+     */
     @Override
     public String getAuthId(final String key) {
         return this.getToken(key).get("id").toString();
@@ -88,7 +98,6 @@ public class JWTServiceImpl implements JwtService{
      * @param jwt
      * @return
      */
-
     @Override
     public boolean isValuedToken(final String jwt) {
         try {
@@ -102,6 +111,10 @@ public class JWTServiceImpl implements JwtService{
         }
     }
 
+    /**
+     * 현재 시간 + 1시간
+     * @return
+     */
     @Override
     public Date getTime() {
         Calendar cal = Calendar.getInstance();
