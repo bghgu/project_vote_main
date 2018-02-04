@@ -19,7 +19,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             "/token-error",
             "/unValued-token",
             "/emc/login",
-            "/vote/access"
+            "/vote/access",
     };
 
     @Autowired

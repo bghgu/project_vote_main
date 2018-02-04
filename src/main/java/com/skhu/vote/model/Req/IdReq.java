@@ -1,4 +1,4 @@
-package com.skhu.vote.model;
+package com.skhu.vote.model.Req;
 
 import lombok.Data;
 
@@ -7,6 +7,6 @@ import lombok.Data;
  */
 
 @Data
-public class IdRequest {
+public class IdReq {
     private String id;
 }

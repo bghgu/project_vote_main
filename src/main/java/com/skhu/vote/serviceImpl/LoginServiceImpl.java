@@ -2,20 +2,17 @@ package com.skhu.vote.serviceImpl;
 
 import com.skhu.vote.domain.ADMIN;
 import com.skhu.vote.model.LoginAdmin;
-import com.skhu.vote.model.LoginRequest;
+import com.skhu.vote.model.Req.LoginReq;
 import com.skhu.vote.repository.AdminRepository;
+import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.LoginService;
 import com.skhu.vote.service.SessionService;
-import com.skhu.vote.utils.SHA512EncryptUtils;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 
 /**
  * Created by ds on 2018-02-02.
@@ -30,10 +27,13 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private SessionService sessionService;
 
+    @Autowired
+    JwtService jwtService;
+
     @Override
-    public LoginAdmin login(final LoginRequest loginRequest) {
+    public LoginAdmin login(final LoginReq loginReq) {
         //SHA512EncryptUtils.encrypt)
-        ADMIN admin = adminRepository.findByIdAndPassword(loginRequest.getId(), loginRequest.getPassword());
+        ADMIN admin = adminRepository.findByIdAndPassword(loginReq.getId(), loginReq.getPassword());
         if(admin == null) {
             return null;
         }else {
@@ -57,6 +57,16 @@ public class LoginServiceImpl implements LoginService {
             loginAdmin.setRoles("ROLE_ADMIN");
         }
         return loginAdmin;
+    }
+
+    /**
+     * 로그 아웃
+     */
+    @Override
+    public void logout() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        sessionService.removeSession(jwtService.getAuthId("emc"));
+        sessionService.removeSession(request.getHeader("Authorization"));
     }
 
 }

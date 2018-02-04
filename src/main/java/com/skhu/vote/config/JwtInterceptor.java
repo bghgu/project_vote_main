@@ -50,7 +50,7 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 
         //System.out.println(jwtService.getAuthId(token));
 
-        //세션 확인
+        //세션 자체 확인
         if(session == null) {
             response.sendRedirect("/no-session");
             return false;

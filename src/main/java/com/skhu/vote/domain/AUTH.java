@@ -22,7 +22,7 @@ public class AUTH {
     private int departmentId;
     private int loginCheck;
     private int voteCheck;
-    private Date loginTime;
+    private Date lastLogin;
 
     public AUTH(final String authCode, final int departmentId) {
         this.authCode = authCode;

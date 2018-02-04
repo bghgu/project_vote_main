@@ -2,7 +2,7 @@ package com.skhu.vote.serviceImpl;
 
 import com.skhu.vote.domain.AUTH;
 import com.skhu.vote.domain.USER;
-import com.skhu.vote.model.DefaultResponse;
+import com.skhu.vote.model.Res.DefaultRes;
 import com.skhu.vote.model.StatusEnum;
 import com.skhu.vote.repository.AuthRepository;
 import com.skhu.vote.repository.UserRepository;
@@ -29,9 +29,9 @@ public class EmcServiceImpl implements EmcService {
     AuthRepository authRepository;
 
     @Override
-    public DefaultResponse getUser(final String id) {
+    public DefaultRes getUser(final String id) {
         USER user = userRepository.findById(id);
-        DefaultResponse response = voterCheckUtils.check(user);
+        DefaultRes response = voterCheckUtils.check(user);
         if(response.getMsg() == null) {
             response.setStatus(StatusEnum.SUCCESS);
             response.setData(user);
@@ -42,9 +42,9 @@ public class EmcServiceImpl implements EmcService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public DefaultResponse saveAuth(final String id) {
+    public DefaultRes saveAuth(final String id) {
         USER user = userRepository.findById(id);
-        DefaultResponse response = voterCheckUtils.check(user);
+        DefaultRes response = voterCheckUtils.check(user);
         if(response.getMsg() == null) {
             //학과 코드 반환
             int departmentId = user.getDepartment().getDepartmentId();

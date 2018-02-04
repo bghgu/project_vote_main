@@ -1,6 +1,6 @@
 package com.skhu.vote.controller;
 
-import com.skhu.vote.model.DefaultResponse;
+import com.skhu.vote.model.Res.DefaultRes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +19,10 @@ public class ErrorController {
      * @return
      */
     @GetMapping("no-session")
-    public ResponseEntity<DefaultResponse> noSession() {
-        DefaultResponse response = new DefaultResponse();
+    public ResponseEntity<DefaultRes> noSession() {
+        DefaultRes response = new DefaultRes();
         response.setMsg("no-session");
-        return new ResponseEntity<DefaultResponse>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -30,10 +30,10 @@ public class ErrorController {
      * @return
      */
     @GetMapping("session-error")
-    public ResponseEntity<DefaultResponse> sessionError() {
-        DefaultResponse response = new DefaultResponse();
+    public ResponseEntity<DefaultRes> sessionError() {
+        DefaultRes response = new DefaultRes();
         response.setMsg("session-token-error");
-        return new ResponseEntity<DefaultResponse>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -41,10 +41,10 @@ public class ErrorController {
      * @return
      */
     @GetMapping("no-token")
-    public ResponseEntity<DefaultResponse> noToken() {
-        DefaultResponse response = new DefaultResponse();
+    public ResponseEntity<DefaultRes> noToken() {
+        DefaultRes response = new DefaultRes();
         response.setMsg("no-token");
-        return new ResponseEntity<DefaultResponse>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -52,10 +52,10 @@ public class ErrorController {
      * @return
      */
     @GetMapping("unValued-token")
-    public ResponseEntity<DefaultResponse> unValuedToken() {
-        DefaultResponse response = new DefaultResponse();
+    public ResponseEntity<DefaultRes> unValuedToken() {
+        DefaultRes response = new DefaultRes();
         response.setMsg("unValued-token");
-        return new ResponseEntity<DefaultResponse>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -63,9 +63,9 @@ public class ErrorController {
      * @return
      */
     @GetMapping("token-error")
-    public ResponseEntity<DefaultResponse> tokenError() {
-        DefaultResponse response = new DefaultResponse();
+    public ResponseEntity<DefaultRes> tokenError() {
+        DefaultRes response = new DefaultRes();
         response.setMsg("token-error");
-        return new ResponseEntity<DefaultResponse>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
     }
 }

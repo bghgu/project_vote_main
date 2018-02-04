@@ -1,4 +1,4 @@
-package com.skhu.vote.model;
+package com.skhu.vote.model.Req;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +9,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AuthCodeRequest {
+public class AuthCodeReq {
     private String code;
 
-    public AuthCodeRequest() {
+    public AuthCodeReq() {
         this.code = "";
     }
 }
