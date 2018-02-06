@@ -6,7 +6,6 @@ import java.security.MessageDigest;
  * Created by ds on 2018-02-02.
  */
 
-
 public class SHA512EncryptUtils {
 
     /**

@@ -1,11 +1,13 @@
 package com.skhu.vote.serviceImpl;
 
-import com.skhu.vote.model.Block;
+import com.skhu.vote.model.BlockBody;
+import com.skhu.vote.model.BlockHeader;
 import com.skhu.vote.model.Req.CandidateReq;
 import com.skhu.vote.model.Req.VoteReq;
 import com.skhu.vote.service.BlockChainService;
 import com.skhu.vote.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,23 +30,45 @@ public class BlockChainServiceImpl implements BlockChainService {
     SessionService sessionService;
 
     //블록 생성
-    private Block createBlock(final CandidateReq candidateReq, final String code) {
-        Block block = new Block(candidateReq, code);
-        System.out.println(block.toString());
-        return null;
+    private BlockBody createBlockBody(final CandidateReq candidateReq, final String code) {
+        return new BlockBody(candidateReq, code);
     }
 
     //블록 삽입
     @Override
     public boolean insertBlock(final VoteReq voteReq) {
-        for(CandidateReq candidateReq : voteReq.getVoteList()) {
-            createBlock(candidateReq, voteReq.getCode());
+        //블록체인 검사
+        if(checkBlockChain()) {
+            //마지막 블록 해쉬값 리턴
+            String tempHashCode = getPreBlockHashCode();
+            //새로 삽입할 블록 리스트 생성
+            for(CandidateReq candidateReq : voteReq.getVoteList()) {
+                //블록 생성
+                BlockHeader block = new BlockHeader(createBlockBody(candidateReq, voteReq.getCode()), tempHashCode);
+                //레디스 블록 삽입
+
+                //마지막 블록 해쉬값 갱신
+                tempHashCode = block.getMerkleHash();
+            }
+            if(checkBlockChain()) {
+                //commit;
+                return true;
+            }else {
+                //rollback;
+                return false;
+            }
+        }else {
+            return false;
         }
-        return false;
     }
 
     //블록 체인 검사
     public boolean checkBlockChain() {
         return false;
+    }
+
+    //마지막 블록 해쉬값 리턴
+    public String getPreBlockHashCode() {
+        return "1";
     }
 }

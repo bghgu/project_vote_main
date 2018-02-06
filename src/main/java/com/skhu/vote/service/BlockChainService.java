@@ -1,7 +1,5 @@
 package com.skhu.vote.service;
 
-import com.skhu.vote.model.Block;
-import com.skhu.vote.model.Req.CandidateReq;
 import com.skhu.vote.model.Req.VoteReq;
 
 /**
@@ -9,7 +7,7 @@ import com.skhu.vote.model.Req.VoteReq;
  */
 
 public interface BlockChainService {
-    //Block createBloce(final CandidateReq candidateReq, final String code);
+    //BlockHeader createBloce(final CandidateReq candidateReq, final String code);
     boolean insertBlock(final VoteReq voteReq);
     //boolean checkBlockChain();
 }
