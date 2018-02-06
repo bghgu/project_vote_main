@@ -1,18 +1,26 @@
 package com.skhu.vote.model;
 
 import com.skhu.vote.model.Req.CandidateReq;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by ds on 2018-02-04.
  */
 
-@Getter
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class Block {
+public class Block implements Serializable{
+
+
+
     //이전블록 해쉬값
     private String preBlockHash;
     //현재 블록 해쉬값
@@ -20,7 +28,7 @@ public class Block {
     //투표 시간
     private Date voteTime;
     //현재 블록 고유 인덱스값
-    private int blockId;
+    private String blockId;
     //투표 값
     private int value;
     //투표 종류

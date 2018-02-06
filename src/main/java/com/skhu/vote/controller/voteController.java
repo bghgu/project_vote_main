@@ -108,7 +108,7 @@ public class voteController {
                             if(candidateReq.getVoteId() < 1 || candidateReq.getCandidateId() < 1) response.setMsg("유효하지 않은 투표 값 입니다.");
                             else {
                                 //투표 값 삽입
-                                blockChainService.insertBlock(candidateReq, voteReq.getCode());
+                                //blockChainService.insertBlock(candidateReq, voteReq.getCode());
                                 voteService.updateVoteCheck(voteReq.getCode());
                                 voteService.logout(voteReq.getCode());
                                 response.setStatus(StatusEnum.SUCCESS);
@@ -119,6 +119,13 @@ public class voteController {
                 }
             }
         }
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("test")
+    public ResponseEntity<DefaultRes> test(@RequestBody VoteReq voteReq) {
+        DefaultRes response = new DefaultRes();
+        blockChainService.insertBlock(voteReq);
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
     }
 }

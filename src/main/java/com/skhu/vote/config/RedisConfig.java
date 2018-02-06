@@ -29,6 +29,7 @@ public class RedisConfig {
 
     /**
      * Redis 커넥션 관리
+     *
      * @return
      */
 
@@ -48,12 +49,12 @@ public class RedisConfig {
         return jedisConnectionFactory;
     }
 
-    @Bean(name="redisTemplate")
+    @Bean(name = "redisTemplate")
     public RedisTemplate<String, Object> redisTemplateConfig(JedisConnectionFactory jedisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setConnectionFactory(jedisConnectionFactory);
         return redisTemplate;
-}
+    }
 }
