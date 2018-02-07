@@ -1,18 +1,23 @@
 package com.skhu.vote.model;
 
 import com.skhu.vote.utils.SHA512EncryptUtils;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
-
 /**
  * Created by ds on 2018-02-04.
  */
 
-@Getter
-public class BlockHeader implements Serializable{
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class BlockHeader implements Serializable {
+
+    private static final long serialVersionUID = -597819263112668252L;
+
     //이전블록 해쉬값
     private String preBlockHash;
     //현재 블록 해쉬값 = 리스트의 키 값
@@ -35,34 +40,5 @@ public class BlockHeader implements Serializable{
     private void setMerkleHash() {
         if(merkleHash == null)
             this.merkleHash = SHA512EncryptUtils.encrypt(String.valueOf(this.hashCode()));
-    }
-
-    @Override
-    public String toString() {
-        return "BlockHeader{" +
-                "preBlockHash='" + preBlockHash + '\'' +
-                ", merkleHash='" + merkleHash + '\'' +
-                ", createBlockTime=" + createBlockTime +
-                ", blockHash=" + blockHash +
-                ", blockBody=" + blockBody +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BlockHeader that = (BlockHeader) o;
-        return blockHash == that.blockHash &&
-                Objects.equals(preBlockHash, that.preBlockHash) &&
-                Objects.equals(merkleHash, that.merkleHash) &&
-                Objects.equals(createBlockTime, that.createBlockTime) &&
-                Objects.equals(blockBody, that.blockBody);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(preBlockHash, merkleHash, createBlockTime, blockHash, blockBody);
     }
 }

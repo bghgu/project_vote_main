@@ -50,8 +50,8 @@ public class RedisConfig {
     }
 
     @Bean(name = "redisTemplate")
-    public RedisTemplate<String, Object> redisTemplateConfig(JedisConnectionFactory jedisConnectionFactory) {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+    public RedisTemplate redisTemplateConfig(JedisConnectionFactory jedisConnectionFactory) {
+        RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setConnectionFactory(jedisConnectionFactory);

@@ -3,15 +3,20 @@ package com.skhu.vote.model;
 import com.skhu.vote.model.Req.CandidateReq;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Created by ds on 2018-02-06.
  */
 
-@Getter
-public class BlockBody {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BlockBody implements Serializable{
+
+    private static final long serialVersionUID = -6156036100875586824L;
+
     //투표 시간
     private Date voteTime;
     //투표 값
@@ -26,31 +31,5 @@ public class BlockBody {
         this.candidateId = candidateReq.getCandidateId();
         this.voteId = candidateReq.getVoteId();
         this.authCode = code;
-    }
-
-    @Override
-    public String toString() {
-        return "BlockBody{" +
-                "voteTime=" + voteTime +
-                ", candidateId=" + candidateId +
-                ", voteId=" + voteId +
-                ", authCode='" + authCode + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BlockBody blockBody = (BlockBody) o;
-        return candidateId == blockBody.candidateId &&
-                voteId == blockBody.voteId &&
-                Objects.equals(voteTime, blockBody.voteTime) &&
-                Objects.equals(authCode, blockBody.authCode);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(voteTime, candidateId, voteId, authCode);
     }
 }

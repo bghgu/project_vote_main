@@ -4,7 +4,9 @@ package com.skhu.vote;
  * Created by ds on 2018-02-06.
  */
 
+import com.skhu.vote.model.BlockBody;
 import com.skhu.vote.model.BlockHeader;
+import com.skhu.vote.model.Req.CandidateReq;
 import com.skhu.vote.model.User;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,6 +15,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -26,13 +30,13 @@ public class RedisTest2 {
     @Resource(name="redisTemplate")
     private RedisTemplate redisTemplate;
 
-    private final static String KEY_NAME = "users:info";
+    private final static String KEY_NAME = "block";
 
-    @Before
+    /*@Before
     public void initKey(){
         redisTemplate.delete(this.KEY_NAME);
     }
-
+*/
 
     @Test
     public void testListOperationString() {
@@ -52,18 +56,18 @@ public class RedisTest2 {
     @Test
     public void testListOpenationObject() {
         ListOperations<String, BlockHeader> listOps = redisTemplate.opsForList();
-        // User 인스턴스 생성
-        BlockHeader
-        listOps.rightPush(KEY_NAME, user1);
+        /*// User 인스턴스 생성
+        //BlockHeader
+        //listOps.rightPush(KEY_NAME, user1);
         User user2 = new User();
         user2.setUser_name("andy");
         user2.setUser_sex("F");
-        listOps.rightPush(KEY_NAME, user2);
-        List<User> users = listOps.range(KEY_NAME,0,-1);
+        //listOps.rightPush(KEY_NAME, user2);
+        //List<User> users = listOps.range(KEY_NAME,0,-1);
         for( User user : users) {
             System.out.println(user.getUser_name());
             System.out.println(user.getUser_sex());
-        }
+        }*/
     }
 
 
@@ -90,6 +94,34 @@ public class RedisTest2 {
         // FIFO(First In First Out) left push 후 right pop
         List<BlockHeader> blockHeaderList = listOps.range(KEY_NAME, 0, -1);
         System.out.println(blockHeaderList.size());
+    }
+
+    //모든 데이터 get
+    @Test
+    public void testListGet() {
+        ListOperations<String, BlockHeader> listOperations = redisTemplate.opsForList();
+        List<BlockHeader> blockHeaderList = listOperations.range(KEY_NAME, 0, -1);
+        System.out.println(blockHeaderList.size());
+        for(BlockHeader blockHeader : blockHeaderList) {
+            System.out.println(blockHeader.toString());
+        }
+    }
+
+    //데이터 push
+    @Test
+    public void testListPush(){
+        //ListOperations<String, User> listOperations = redisTemplate.opsForList();
+        ListOperations<String, BlockHeader> listOperations = redisTemplate.opsForList();
+        CandidateReq candidateReq = new CandidateReq(1, 1);
+        BlockBody blockBody = new BlockBody(candidateReq, "00000000");
+        BlockHeader block = new BlockHeader(blockBody, "ac84b4be39b1acc4ab1eef63187ebc59dbe16ac9c984fe2fbb424ce50f903eb13df920f73c486c41db7d5f11ed9405b5a0938f2491dfc43b94fcedcab95a00a7");
+        listOperations.rightPush(KEY_NAME, block);
+        //List<User> blockHeaderList = listOperations.range(KEY_NAME, 0, -1);
+        List<BlockHeader> blockHeaderList = listOperations.range(KEY_NAME, 0, -1);
+        System.out.println(blockHeaderList.size());
+        for(BlockHeader b : blockHeaderList) {
+            System.out.println(b.toString());
+        }
     }
 
 }

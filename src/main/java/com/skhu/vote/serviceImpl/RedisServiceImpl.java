@@ -27,28 +27,17 @@ public class RedisServiceImpl implements RedisService {
 
     private final static String KEY_NAME = "project_vote:core:block";
 
-    public void testListOpenationObject() {
-        ListOperations<String, User> listOps = redisTemplate.opsForList();
-        // User 인스턴스 생성
-        User user1 = new User();
-        user1.setUser_name("willis");
-        user1.setUser_sex("M");
-        listOps.rightPush(KEY_NAME, user1);
-        User user2 = new User();
-        user2.setUser_name("andy");
-        user2.setUser_sex("F");
-        listOps.rightPush(KEY_NAME, user2);
-        List<User> users = listOps.range(KEY_NAME,0,-1);
-        for( User user : users) {
-            System.out.println(user.getUser_name());
-            System.out.println(user.getUser_sex());
-        }
+
+    //모든 데이터 get
+    public List<BlockHeader> getAllList() {
+        ListOperations<String, BlockHeader> listOperations = redisTemplate.opsForList();
+        List<BlockHeader> blockHeaderList = listOperations.range(KEY_NAME, 0, -1);
+        return blockHeaderList;
     }
 
-    public void testListQueue(){
-        ListOperations<String, BlockHeader> listOps = redisTemplate.opsForList();
-        // FIFO(First In First Out) left push 후 right pop
-        List<BlockHeader> blockHeaderList = listOps.range(KEY_NAME, 0, -1);
-        System.out.println(blockHeaderList.size());
+    //데이터 push
+    public void pushData(final BlockHeader blockHeader){
+        ListOperations<String, BlockHeader> listOperations = redisTemplate.opsForList();
+        listOperations.rightPush(KEY_NAME, blockHeader);
     }
 }
