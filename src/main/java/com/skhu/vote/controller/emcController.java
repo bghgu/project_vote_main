@@ -65,6 +65,7 @@ public class emcController {
 
     @GetMapping("check/{id}")
     public ResponseEntity<DefaultRes> checkUser(@PathVariable("id") final String id) {
+        System.out.println(id);
         DefaultRes response = emcService.getUser(id);
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
     }

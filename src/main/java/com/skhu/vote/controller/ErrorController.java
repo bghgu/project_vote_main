@@ -20,6 +20,7 @@ public class ErrorController {
      */
     @GetMapping("no-session")
     public ResponseEntity<DefaultRes> noSession() {
+        System.out.println("no-session");
         DefaultRes response = new DefaultRes();
         response.setMsg("no-session");
         return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
@@ -31,6 +32,7 @@ public class ErrorController {
      */
     @GetMapping("session-error")
     public ResponseEntity<DefaultRes> sessionError() {
+        System.out.println("session-error");
         DefaultRes response = new DefaultRes();
         response.setMsg("session-token-error");
         return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
@@ -42,6 +44,7 @@ public class ErrorController {
      */
     @GetMapping("no-token")
     public ResponseEntity<DefaultRes> noToken() {
+        System.out.println("no-token");
         DefaultRes response = new DefaultRes();
         response.setMsg("no-token");
         return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
@@ -53,6 +56,7 @@ public class ErrorController {
      */
     @GetMapping("unValued-token")
     public ResponseEntity<DefaultRes> unValuedToken() {
+        System.out.println("unValued-token");
         DefaultRes response = new DefaultRes();
         response.setMsg("unValued-token");
         return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
