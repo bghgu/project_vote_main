@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * Created by ds on 2018-02-02.
@@ -19,5 +20,5 @@ public class ADMIN {
     private String password;
     private String departmentName;
     private int type;
-
+    private Date lastLogin;
 }

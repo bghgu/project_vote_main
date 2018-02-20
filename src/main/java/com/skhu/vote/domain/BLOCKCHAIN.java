@@ -17,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BLOCKCHAIN {
+
     private String preBlockHash;
     private String merkleHash;
     private Date voteTime;

@@ -1,12 +1,8 @@
 package com.skhu.vote.serviceImpl;
 
-import com.skhu.vote.config.UnauthorizedException;
-import com.skhu.vote.model.LoginAdmin;
 import com.skhu.vote.service.JwtService;
-import com.skhu.vote.service.SessionService;
 import com.skhu.vote.utils.SHA512EncryptUtils;
 import io.jsonwebtoken.*;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,7 +10,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -49,11 +44,11 @@ public class JWTServiceImpl implements JwtService{
                 .setHeaderParam("type", "JWT")
                 .setHeaderParam("regDate", System.currentTimeMillis())
                 .setId(key)
-                //.setExpiration(getTime())
+                .setExpiration(getTime())
                 .claim(key, data)
                 .signWith(SignatureAlgorithm.HS512, SHA512EncryptUtils.encrypt(SALT))
                 .compact();
-        sessionService.setSession(jwt, jwt);
+        //sessionService.setSession(jwt, jwt);
         return jwt;
     }
 

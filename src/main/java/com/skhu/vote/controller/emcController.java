@@ -8,7 +8,6 @@ import com.skhu.vote.service.EmcService;
 
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.LoginService;
-import com.skhu.vote.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,15 +49,13 @@ public class emcController {
     @PostMapping("login")
     public ResponseEntity<DefaultRes> login(@RequestBody LoginReq loginReq) {
         DefaultRes response = new DefaultRes();
-        if(sessionService.isSession(loginReq.getId())) response.setMsg("이미 접속중입니다.");
+
+        LoginAdmin loginAdmin = loginService.login(loginReq);
+        if(loginAdmin == null) response.setMsg("로그인 실패");
         else {
-            LoginAdmin loginAdmin = loginService.login(loginReq);
-            if(loginAdmin == null) response.setMsg("로그인 실패");
-            else {
-                response.setStatus(StatusEnum.SUCCESS);
-                response.setData(jwtService.createToken(loginAdmin, "emc"));
-                response.setMsg("로그인 성공");
-            }
+            response.setStatus(StatusEnum.SUCCESS);
+            response.setData(jwtService.createToken(loginAdmin, "emc"));
+            response.setMsg("로그인 성공");
         }
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
     }

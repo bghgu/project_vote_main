@@ -1,15 +1,5 @@
 package com.skhu.vote.serviceImpl;
 
-import com.skhu.vote.model.BlockBody;
-import com.skhu.vote.model.BlockHeader;
-import com.skhu.vote.model.Req.CandidateReq;
-import com.skhu.vote.model.Req.VoteReq;
-import com.skhu.vote.service.BlockChainService;
-import com.skhu.vote.service.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 /**
  * Created by ds on 2018-02-04.
  */
@@ -23,6 +13,7 @@ import org.springframework.stereotype.Service;
  * 5. 블록 체크
  */
 
+/*
 @Service
 public class BlockChainServiceImpl implements BlockChainService {
 
@@ -72,3 +63,4 @@ public class BlockChainServiceImpl implements BlockChainService {
         return "1";
     }
 }
+*/

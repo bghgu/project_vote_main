@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
@@ -16,6 +17,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 
 @Configuration
+@EnableRedisRepositories
 public class RedisConfig {
 
     @Value("${spring.redis.host}")
@@ -26,12 +28,6 @@ public class RedisConfig {
 
     @Value("${spring.redis.password}")
     private String redisPassword;
-
-    /**
-     * Redis 커넥션 관리
-     *
-     * @return
-     */
 
     @Bean
     public JedisPoolConfig jedisPoolConfig() {

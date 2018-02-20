@@ -7,9 +7,7 @@ import com.skhu.vote.model.Req.VoteReq;
 import com.skhu.vote.model.Res.DefaultRes;
 
 import com.skhu.vote.model.StatusEnum;
-import com.skhu.vote.service.BlockChainService;
 import com.skhu.vote.service.JwtService;
-import com.skhu.vote.service.SessionService;
 import com.skhu.vote.service.VoteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +43,8 @@ public class voteController {
     @Autowired
     JwtService jwtService;
 
-    @Autowired
-    BlockChainService blockChainService;
+    /*@Autowired
+    BlockChainService blockChainService;*/
 
     /**
      * 1. 인증 코드로 현재 토큰이 발급되있는지 검사(로그인 체크)
@@ -125,7 +122,7 @@ public class voteController {
     @PostMapping("test")
     public ResponseEntity<DefaultRes> test(@RequestBody VoteReq voteReq) {
         DefaultRes response = new DefaultRes();
-        blockChainService.insertBlock(voteReq);
+        //blockChainService.insertBlock(voteReq);
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
     }
 }

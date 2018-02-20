@@ -7,16 +7,12 @@ package com.skhu.vote;
 import com.skhu.vote.model.BlockBody;
 import com.skhu.vote.model.BlockHeader;
 import com.skhu.vote.model.Req.CandidateReq;
-import com.skhu.vote.model.User;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;

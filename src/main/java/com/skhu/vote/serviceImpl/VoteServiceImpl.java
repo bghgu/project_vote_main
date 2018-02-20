@@ -3,14 +3,11 @@ package com.skhu.vote.serviceImpl;
 import com.skhu.vote.domain.AUTH;
 import com.skhu.vote.domain.VOTEINFO;
 import com.skhu.vote.model.Req.AuthCodeReq;
-import com.skhu.vote.model.Res.DefaultRes;
 import com.skhu.vote.repository.AuthRepository;
 import com.skhu.vote.repository.VoteInfoRepository;
 import com.skhu.vote.service.JwtService;
-import com.skhu.vote.service.SessionService;
 import com.skhu.vote.service.VoteService;
 
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,7 +97,7 @@ public class VoteServiceImpl implements VoteService {
      */
     @Override
     public Map<String, Object> createMap(final AuthCodeReq code) {
-        sessionService.setSession(code.getCode(), code);
+        //sessionService.setSession(code.getCode(), code);
         Map<String, Object> map = new HashMap<>();
         map.put("jwt", jwtService.createToken(code, "voter"));
         return map;
@@ -142,7 +139,7 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public void logout(final String code) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        sessionService.removeSession(code);
-        sessionService.removeSession(request.getHeader("Authorization"));
+        //sessionService.removeSession(code);
+        //sessionService.removeSession(request.getHeader("Authorization"));
     }
 }

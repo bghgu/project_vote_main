@@ -17,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AUTH {
+
     @Id
     private String authCode;
     private int departmentId;

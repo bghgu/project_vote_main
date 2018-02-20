@@ -1,7 +1,6 @@
 package com.skhu.vote.config;
 
 import com.skhu.vote.service.JwtService;
-import com.skhu.vote.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,7 +8,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Created by ds on 2018-02-02.
@@ -45,26 +43,22 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        final String token = request.getHeader(HEADER);
+        /*final String token = request.getHeader(HEADER);
         HttpSession session = request.getSession(false);
         System.out.println(request.getRequestURL());
-        //System.out.println(jwtService.getAuthId(token));
 
         //세션 자체 확인
         if(session == null) {
-            //response.sendRedirect("/no-session");
             return false;
         }
         //토큰 넘어왔는지 확인
         if(token == null) {
             System.out.println(1);
-            //response.sendRedirect("/no-token");
             return false;
         }
         //토큰 검증
         if(!jwtService.isValuedToken(token)) {
             System.out.println(2);
-            //response.sendRedirect("/token-error");
             return false;
         }
         //세션에 저장된 토큰 확인
@@ -81,7 +75,7 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
         }
         else {
             System.out.println(5);
-        }
+        }*/
         return true;
     }
 

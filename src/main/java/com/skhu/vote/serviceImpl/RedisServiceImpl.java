@@ -1,3 +1,4 @@
+/*
 package com.skhu.vote.serviceImpl;
 
 import com.skhu.vote.model.BlockHeader;
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+*/
 /**
  * Created by ds on 2018-02-04.
- */
+ *//*
+
 
 @Service
 public class RedisServiceImpl implements RedisService {
@@ -41,3 +44,4 @@ public class RedisServiceImpl implements RedisService {
         listOperations.rightPush(KEY_NAME, blockHeader);
     }
 }
+*/
