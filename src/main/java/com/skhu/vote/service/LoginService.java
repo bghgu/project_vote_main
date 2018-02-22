@@ -8,5 +8,5 @@ import com.skhu.vote.model.Req.LoginReq;
  */
 public interface LoginService {
     LoginAdmin login(final LoginReq loginReq);
-    void logout();
+    void logout(final String id);
 }

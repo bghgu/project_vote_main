@@ -43,13 +43,9 @@ public class emcController {
     @Autowired
     JwtService jwtService;
 
-    @Autowired
-    SessionService sessionService;
-
     @PostMapping("login")
     public ResponseEntity<DefaultRes> login(@RequestBody LoginReq loginReq) {
         DefaultRes response = new DefaultRes();
-
         LoginAdmin loginAdmin = loginService.login(loginReq);
         if(loginAdmin == null) response.setMsg("로그인 실패");
         else {
@@ -76,7 +72,7 @@ public class emcController {
 
     @GetMapping("logout")
     public ResponseEntity<DefaultRes> logout(HttpServletRequest request) {
-        loginService.logout();
+        loginService.logout(jwtService.getAuthId("emc"));
         DefaultRes response = new DefaultRes(StatusEnum.SUCCESS);
         response.setMsg("안전하게 로그아웃이 되었습니다.");
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);

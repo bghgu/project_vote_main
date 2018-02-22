@@ -4,7 +4,7 @@ import com.skhu.vote.domain.ADMIN;
 import com.skhu.vote.model.LoginAdmin;
 import com.skhu.vote.model.Req.LoginReq;
 import com.skhu.vote.repository.AdminRepository;
-import com.skhu.vote.repository.redis.EmcRepository;
+import com.skhu.vote.repository.redis.LoginAdminRepository;
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by ds on 2018-02-02.
@@ -25,10 +26,7 @@ public class LoginServiceImpl implements LoginService {
     private AdminRepository adminRepository;
 
     @Autowired
-    private EmcRepository emcRepository;
-
-    @Autowired
-    private JwtService jwtService;
+    private LoginAdminRepository loginAdminRepository;
 
     @Override
     public LoginAdmin login(final LoginReq loginReq) {
@@ -38,19 +36,33 @@ public class LoginServiceImpl implements LoginService {
         if(admin == null) {
             return null;
         }else {
-            LoginAdmin loginAdmin = createUser(admin);
-            //로그인 중
-            //세션 안됨
-            /*if(sessionService.isSession(admin.getId())) {
-                return null;
-            }else {
+            if(isLogin(admin.getId())) {
                 LoginAdmin loginAdmin = createUser(admin);
-                sessionService.setSession(admin.getId(), loginAdmin);
+                saveEmc(loginAdmin);
                 return loginAdmin;
-            }*/
-            System.out.println(loginAdmin.toString());
+            }else {
+                return null;
+            }
+        }
+    }
 
-            return loginAdmin;
+    private void saveEmc(final LoginAdmin loginAdmin) {
+        loginAdminRepository.save(loginAdmin);
+    }
+
+    /**
+     * 로그인 여부 확인
+     * @param id
+     * @return
+     */
+    private boolean isLogin(final String id) {
+        LoginAdmin loginAdmin = loginAdminRepository.findById(id);
+        if(loginAdmin == null) {
+            System.out.println("로그인 가능");
+            return true;
+        }else {
+            System.out.println("로그인 중");
+            return false;
         }
     }
 
@@ -70,10 +82,12 @@ public class LoginServiceImpl implements LoginService {
      * 로그 아웃
      */
     @Override
-    public void logout() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        //sessionService.removeSession(jwtService.getAuthId("emc"));
-        //sessionService.removeSession(request.getHeader("Authorization"));
+    public void logout(final String id) {
+        System.out.println(id);
+        LoginAdmin loginAdmin = loginAdminRepository.findById(id);
+        if(loginAdmin != null) {
+            loginAdminRepository.delete(loginAdmin);
+        }
     }
 
 }

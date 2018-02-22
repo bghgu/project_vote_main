@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
  * Created by ds on 2018-01-27.
  */
 
+/*
 @Component
 public class SimpleCORSFilter implements Filter {
 
@@ -36,4 +37,4 @@ public class SimpleCORSFilter implements Filter {
     @Override
     public void destroy() {}
 
-}
+}*/

@@ -34,9 +34,6 @@ public class VoteServiceImpl implements VoteService {
     AuthRepository authRepository;
 
     @Autowired
-    SessionService sessionService;
-
-    @Autowired
     JwtService jwtService;
 
     /**

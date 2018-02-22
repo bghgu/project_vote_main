@@ -28,9 +28,6 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private JwtService jwtService;
 
-    @Autowired
-    private SessionService sessionService;
-
     /**
      * 컨트롤러 메소드 실행 직전에 수행
      * true 를 반환하면 계속 진행이 되고  false 를 리턴하면 실행 체인(다른 인터셉터, 컨트롤러 실행)이 중지되고 반환

@@ -25,9 +25,6 @@ public class JWTServiceImpl implements JwtService{
     @Value("${JWT.SALT}")
     private String SALT;
 
-    @Autowired
-    private SessionService sessionService;
-
     /**
      * 토큰 생성
      * @param data
@@ -70,7 +67,6 @@ public class JWTServiceImpl implements JwtService{
         } catch (Exception e) {
             //throw new UnauthorizedException();
         }
-        System.out.println(claims);
         @SuppressWarnings("unchecked")
         Map<String, Object> value = (LinkedHashMap<String, Object>)claims.getBody().get(key);
         return value;

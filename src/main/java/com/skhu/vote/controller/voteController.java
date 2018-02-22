@@ -38,9 +38,6 @@ public class voteController {
     VoteService voteService;
 
     @Autowired
-    SessionService sessionService;
-
-    @Autowired
     JwtService jwtService;
 
     /*@Autowired
@@ -58,24 +55,25 @@ public class voteController {
     @PostMapping("access")
     public ResponseEntity<DefaultRes> access(@RequestBody AuthCodeReq code) {
         DefaultRes response = new DefaultRes();
-        if(sessionService.isSession(code.getCode())) response.setMsg("현재 로그인 중입니다.");
+        if(!voteService.isAuthCodeExist(code.getCode())) response.setMsg("등록된 인증번호가 아닙니다.");
         else {
-            if(!voteService.isAuthCodeExist(code.getCode())) response.setMsg("등록된 인증번호가 아닙니다.");
+            if(voteService.isVoteCheck(code.getCode())) response.setMsg("이미 투표를 진행했습니다.");
             else {
-                if(voteService.isVoteCheck(code.getCode())) response.setMsg("이미 투표를 진행했습니다.");
+                List<VOTEINFO> voteList = voteService.getVoteList(code.getCode());
+                if(voteList == null) response.setMsg("투표 및 후보자 리스트가 없습니다.");
                 else {
-                    List<VOTEINFO> voteList = voteService.getVoteList(code.getCode());
-                    if(voteList == null) response.setMsg("투표 및 후보자 리스트가 없습니다.");
-                    else {
-                        Map<String, Object> map = voteService.createMap(code);
-                        map.put("list", voteList);
-                        response.setStatus(StatusEnum.SUCCESS);
-                        response.setData(map);
-                        response.setMsg("투표 및 후보자 리스트 입니다.");
-                    }
+                    Map<String, Object> map = voteService.createMap(code);
+                    map.put("list", voteList);
+                    response.setStatus(StatusEnum.SUCCESS);
+                    response.setData(map);
+                    response.setMsg("투표 및 후보자 리스트 입니다.");
                 }
             }
         }
+        /*if(sessionService.isSession(code.getCode())) response.setMsg("현재 로그인 중입니다.");
+        else {
+
+        }*/
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
     }
 
@@ -93,29 +91,30 @@ public class voteController {
     @PostMapping("")
     public ResponseEntity<DefaultRes> vote(@RequestBody VoteReq voteReq) {
         DefaultRes response = new DefaultRes();
-        if(!sessionService.isSession(voteReq.getCode())) response.setMsg("해당 인증코드는 사용하실 수 없습니다.");
+        if(!voteService.isAuthCodeExist(voteReq.getCode())) response.setMsg("존재하지 않는 인증코드 입니다.");
         else {
-            if(!voteService.isAuthCodeExist(voteReq.getCode())) response.setMsg("존재하지 않는 인증코드 입니다.");
+            if(voteService.isVoteCheck(voteReq.getCode())) response.setMsg("이미 투표를 진행했습니다.");
             else {
-                if(voteService.isVoteCheck(voteReq.getCode())) response.setMsg("이미 투표를 진행했습니다.");
+                if(voteReq.getVoteList().size() == 0) response.setMsg("투표 값이 없습니다.");
                 else {
-                    if(voteReq.getVoteList().size() == 0) response.setMsg("투표 값이 없습니다.");
-                    else {
-                        for(CandidateReq candidateReq : voteReq.getVoteList()) {
-                            if(candidateReq.getVoteId() < 1 || candidateReq.getCandidateId() < 1) response.setMsg("유효하지 않은 투표 값 입니다.");
-                            else {
-                                //투표 값 삽입
-                                //blockChainService.insertBlock(candidateReq, voteReq.getCode());
-                                voteService.updateVoteCheck(voteReq.getCode());
-                                voteService.logout(voteReq.getCode());
-                                response.setStatus(StatusEnum.SUCCESS);
-                                response.setMsg("투표가 성공적으로 끝났습니다.");
-                            }
+                    for(CandidateReq candidateReq : voteReq.getVoteList()) {
+                        if(candidateReq.getVoteId() < 1 || candidateReq.getCandidateId() < 1) response.setMsg("유효하지 않은 투표 값 입니다.");
+                        else {
+                            //투표 값 삽입
+                            //blockChainService.insertBlock(candidateReq, voteReq.getCode());
+                            voteService.updateVoteCheck(voteReq.getCode());
+                            voteService.logout(voteReq.getCode());
+                            response.setStatus(StatusEnum.SUCCESS);
+                            response.setMsg("투표가 성공적으로 끝났습니다.");
                         }
                     }
                 }
             }
         }
+        /*if(!sessionService.isSession(voteReq.getCode())) response.setMsg("해당 인증코드는 사용하실 수 없습니다.");
+        else {
+
+        }*/
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
     }
 
