@@ -45,15 +45,7 @@ public class emcController {
 
     @PostMapping("login")
     public ResponseEntity<DefaultRes> login(@RequestBody LoginReq loginReq) {
-        DefaultRes response = new DefaultRes();
-        LoginAdmin loginAdmin = loginService.login(loginReq);
-        if(loginAdmin == null) response.setMsg("로그인 실패");
-        else {
-            response.setStatus(StatusEnum.SUCCESS);
-            response.setData(jwtService.createToken(loginAdmin, "emc"));
-            response.setMsg("로그인 성공");
-        }
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
+        return new ResponseEntity<DefaultRes>(loginService.login(loginReq), HttpStatus.OK);
     }
 
     @GetMapping("check/{id}")
