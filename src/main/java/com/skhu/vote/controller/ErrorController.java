@@ -37,6 +37,17 @@ public class ErrorController {
     }
 
     /**
+     * 세션에 저장된 토큰 확인
+     * @return
+     */
+    @GetMapping("token-session-error")
+    public ResponseEntity<DefaultRes> sessionError() {
+        DefaultRes response = new DefaultRes();
+        response.setMsg("token-session-errorr");
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
      * 세션 오류
      * @return
      */
@@ -45,18 +56,6 @@ public class ErrorController {
         System.out.println("no-session");
         DefaultRes response = new DefaultRes();
         response.setMsg("no-session");
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
-    }
-
-    /**
-     * 세션에 저장된 토큰 확인
-     * @return
-     */
-    @GetMapping("session-error")
-    public ResponseEntity<DefaultRes> sessionError() {
-        System.out.println("session-error");
-        DefaultRes response = new DefaultRes();
-        response.setMsg("session-token-error");
         return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
     }
 

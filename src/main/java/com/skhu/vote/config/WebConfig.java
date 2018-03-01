@@ -17,10 +17,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     private static final String[] EXCLUDE_ERROR_PATH = {
             "/no-session",
-            "/session-error",
             "/no-token",
             "/token-error",
-            "/unValued-token"
+            "/unValued-token",
+            "/token-session-error"
     };
 
     private static final String[] EXCLUDE_PATH = {

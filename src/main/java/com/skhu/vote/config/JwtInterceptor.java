@@ -48,11 +48,15 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
         //헤더값은 있지만 토큰값이 잘못된 경우
-        else if(!jwtService.isValuedToken(token)) {
+        if(!jwtService.isValuedToken(token)) {
             response.sendRedirect("/token-error");
             return false;
         }
-
+        //해당 토큰값의 세션 여부
+        if(!jwtService.isJwt(token)) {
+            response.sendRedirect("/token-session-error");
+            return false;
+        }
         return true;
     }
 

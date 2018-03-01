@@ -67,6 +67,13 @@ public class JWTServiceImpl implements JwtService{
         }
     }
 
+    @Override
+    public boolean isJwt(final String jwt) {
+        Jwt jwt1 = jwtRepository.findOne(jwt);
+        if(jwt1 == null) return false;
+        return true;
+    }
+
     /**
      * 토큰 저장된 데이터 반환
      * @param key

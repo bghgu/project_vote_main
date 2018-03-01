@@ -50,15 +50,13 @@ public class emcController {
 
     @GetMapping("check/{id}")
     public ResponseEntity<DefaultRes> checkUser(@PathVariable("id") final String id) {
-        DefaultRes response = emcService.getUser(id);
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
+        return new ResponseEntity<DefaultRes>(emcService.getUser(id), HttpStatus.OK);
     }
 
     @PostMapping("confirm")
     @Transactional
     public ResponseEntity<DefaultRes> confirmUser(@RequestBody IdReq id) {
-        DefaultRes response = emcService.saveAuth(id.getId());
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
+        return new ResponseEntity<DefaultRes>(emcService.saveAuth(id.getId()), HttpStatus.OK);
     }
 
     @GetMapping("logout")

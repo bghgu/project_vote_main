@@ -54,27 +54,7 @@ public class voteController {
      */
     @PostMapping("access")
     public ResponseEntity<DefaultRes> access(@RequestBody AuthCodeReq code) {
-        DefaultRes response = new DefaultRes();
-        if(!voteService.isAuthCodeExist(code.getCode())) response.setMsg("등록된 인증번호가 아닙니다.");
-        else {
-            if(voteService.isVoteCheck(code.getCode())) response.setMsg("이미 투표를 진행했습니다.");
-            else {
-                List<VOTEINFO> voteList = voteService.getVoteList(code.getCode());
-                if(voteList == null) response.setMsg("투표 및 후보자 리스트가 없습니다.");
-                else {
-                    Map<String, Object> map = voteService.createMap(code);
-                    map.put("list", voteList);
-                    response.setStatus(StatusEnum.SUCCESS);
-                    response.setData(map);
-                    response.setMsg("투표 및 후보자 리스트 입니다.");
-                }
-            }
-        }
-        /*if(sessionService.isSession(code.getCode())) response.setMsg("현재 로그인 중입니다.");
-        else {
-
-        }*/
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
+        return new ResponseEntity<DefaultRes>(voteService.voteService(code.getCode()), HttpStatus.OK);
     }
 
     /**
@@ -91,7 +71,7 @@ public class voteController {
     @PostMapping("")
     public ResponseEntity<DefaultRes> vote(@RequestBody VoteReq voteReq) {
         DefaultRes response = new DefaultRes();
-        if(!voteService.isAuthCodeExist(voteReq.getCode())) response.setMsg("존재하지 않는 인증코드 입니다.");
+        /*if(!voteService.isAuthCodeExist(voteReq.getCode())) response.setMsg("존재하지 않는 인증코드 입니다.");
         else {
             if(voteService.isVoteCheck(voteReq.getCode())) response.setMsg("이미 투표를 진행했습니다.");
             else {
@@ -110,7 +90,7 @@ public class voteController {
                     }
                 }
             }
-        }
+        }*/
         /*if(!sessionService.isSession(voteReq.getCode())) response.setMsg("해당 인증코드는 사용하실 수 없습니다.");
         else {
 

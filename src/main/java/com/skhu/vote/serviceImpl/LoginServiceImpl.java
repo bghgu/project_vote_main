@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public DefaultRes login(final LoginReq loginReq) {
-        //SHA512EncryptUtils.encrypt)
+        //SHA512EncryptUtils.encrypt
         DefaultRes response = new DefaultRes();
         ADMIN admin = getAdmin(loginReq);
         if(admin == null) response.setMsg("잘못된 아이디/비밀번호 입니다.");
