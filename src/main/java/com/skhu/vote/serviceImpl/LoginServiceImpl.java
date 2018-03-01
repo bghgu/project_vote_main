@@ -1,7 +1,7 @@
 package com.skhu.vote.serviceImpl;
 
 import com.skhu.vote.domain.ADMIN;
-import com.skhu.vote.model.LoginAdmin;
+import com.skhu.vote.domain.redis.LoginAdmin;
 import com.skhu.vote.model.Req.LoginReq;
 import com.skhu.vote.model.Res.DefaultRes;
 import com.skhu.vote.model.StatusEnum;
@@ -10,13 +10,7 @@ import com.skhu.vote.repository.redis.LoginAdminRepository;
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created by ds on 2018-02-02.
@@ -59,6 +53,7 @@ public class LoginServiceImpl implements LoginService {
         if(loginAdmin != null) {
             loginAdminRepository.delete(loginAdmin);
         }
+        jwtService.logoutJwt();
     }
 
     private String makeJwt(final LoginAdmin loginAdmin) {

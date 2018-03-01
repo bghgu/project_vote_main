@@ -14,4 +14,5 @@ public interface JwtService {
     String getAuthId(final String key);
     boolean isValuedToken(final String jwt);
     Date getTime();
+    void logoutJwt();
 }

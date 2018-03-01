@@ -1,6 +1,6 @@
 package com.skhu.vote.serviceImpl;
 
-import com.skhu.vote.model.Jwt;
+import com.skhu.vote.domain.redis.Jwt;
 import com.skhu.vote.repository.redis.JwtRepository;
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.utils.SHA512EncryptUtils;
@@ -50,8 +50,21 @@ public class JWTServiceImpl implements JwtService{
                 .claim(key, data)
                 .signWith(SignatureAlgorithm.HS512, SHA512EncryptUtils.encrypt(SALT))
                 .compact();
-        jwtRepository.save(new Jwt(jwt));
+        saveJwt(jwt);
         return jwt;
+    }
+
+    private void saveJwt(final String jwt) {
+        jwtRepository.save(new Jwt(jwt));
+    }
+
+    @Override
+    public void logoutJwt() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        Jwt jwt = jwtRepository.findOne(request.getHeader("Authorization"));
+        if(jwt != null) {
+            jwtRepository.delete(jwt);
+        }
     }
 
     /**

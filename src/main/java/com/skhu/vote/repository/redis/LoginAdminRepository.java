@@ -1,9 +1,7 @@
 package com.skhu.vote.repository.redis;
 
-import com.skhu.vote.model.LoginAdmin;
+import com.skhu.vote.domain.redis.LoginAdmin;
 import org.springframework.data.repository.CrudRepository;
-
-import java.util.List;
 
 /**
  * Created by ds on 2018-02-20.

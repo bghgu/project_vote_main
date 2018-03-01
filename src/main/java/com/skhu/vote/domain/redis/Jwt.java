@@ -1,4 +1,4 @@
-package com.skhu.vote.model;
+package com.skhu.vote.domain.redis;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
