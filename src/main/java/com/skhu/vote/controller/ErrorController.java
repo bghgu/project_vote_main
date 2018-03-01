@@ -15,6 +15,28 @@ public class ErrorController {
 
 
     /**
+     * 헤더값에 토큰 넘어왔는지 확인
+     * @return
+     */
+    @GetMapping("no-token")
+    public ResponseEntity<DefaultRes> noToken() {
+        DefaultRes response = new DefaultRes();
+        response.setMsg("no-token");
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * 토큰 검증
+     * @return
+     */
+    @GetMapping("token-error")
+    public ResponseEntity<DefaultRes> tokenError() {
+        DefaultRes response = new DefaultRes();
+        response.setMsg("token-error");
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
      * 세션 오류
      * @return
      */
@@ -39,18 +61,6 @@ public class ErrorController {
     }
 
     /**
-     * 토큰 넘어왔는지 확인
-     * @return
-     */
-    @GetMapping("no-token")
-    public ResponseEntity<DefaultRes> noToken() {
-        System.out.println("no-token");
-        DefaultRes response = new DefaultRes();
-        response.setMsg("no-token");
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
-    }
-
-    /**
      * 세션에 저장된 토큰과 request 받은 토큰 비교
      * @return
      */
@@ -62,14 +72,5 @@ public class ErrorController {
         return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
     }
 
-    /**
-     * 토큰 검증
-     * @return
-     */
-    @GetMapping("token-error")
-    public ResponseEntity<DefaultRes> tokenError() {
-        DefaultRes response = new DefaultRes();
-        response.setMsg("token-error");
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.UNAUTHORIZED);
-    }
+
 }

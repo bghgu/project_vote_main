@@ -1,5 +1,7 @@
 package com.skhu.vote.serviceImpl;
 
+import com.skhu.vote.model.Jwt;
+import com.skhu.vote.repository.redis.JwtRepository;
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.utils.SHA512EncryptUtils;
 import io.jsonwebtoken.*;
@@ -25,6 +27,9 @@ public class JWTServiceImpl implements JwtService{
     @Value("${JWT.SALT}")
     private String SALT;
 
+    @Autowired
+    private JwtRepository jwtRepository;
+
     /**
      * 토큰 생성
      * @param data
@@ -45,7 +50,7 @@ public class JWTServiceImpl implements JwtService{
                 .claim(key, data)
                 .signWith(SignatureAlgorithm.HS512, SHA512EncryptUtils.encrypt(SALT))
                 .compact();
-        //sessionService.setSession(jwt, jwt);
+        jwtRepository.save(new Jwt(jwt));
         return jwt;
     }
 

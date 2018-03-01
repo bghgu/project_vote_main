@@ -10,5 +10,4 @@ import java.util.List;
  */
 public interface LoginAdminRepository extends CrudRepository<LoginAdmin, Integer> {
     LoginAdmin findById(final String id);
-    void deleteById(final String id);
 }

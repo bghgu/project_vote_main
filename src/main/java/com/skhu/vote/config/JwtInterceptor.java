@@ -40,39 +40,19 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        /*final String token = request.getHeader(HEADER);
-        HttpSession session = request.getSession(false);
-        System.out.println(request.getRequestURL());
+        String token = request.getHeader(HEADER);
 
-        //세션 자체 확인
-        if(session == null) {
-            return false;
-        }
-        //토큰 넘어왔는지 확인
+        //헤더값이 없을 경우
         if(token == null) {
-            System.out.println(1);
+            response.sendRedirect("/no-token");
             return false;
         }
-        //토큰 검증
-        if(!jwtService.isValuedToken(token)) {
-            System.out.println(2);
+        //헤더값은 있지만 토큰값이 잘못된 경우
+        else if(!jwtService.isValuedToken(token)) {
+            response.sendRedirect("/token-error");
             return false;
         }
-        //세션에 저장된 토큰 확인
-        if(!sessionService.isSession(token)) {
-            System.out.println(3);
-            //response.sendRedirect("/session-error");
-            return false;
-        }
-        //세션에 저장된 토큰과 request 받은 토큰 비교
-        if(!sessionService.getSession(token).equals(token)) {
-            System.out.println(4);
-            //response.sendRedirect("/unValued-token");
-            return false;
-        }
-        else {
-            System.out.println(5);
-        }*/
+
         return true;
     }
 

@@ -2,6 +2,7 @@ package com.skhu.vote.model;
 
 import com.skhu.vote.model.Req.CandidateReq;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
  * Created by ds on 2018-02-06.
  */
 
+@RedisHash("jwt")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
