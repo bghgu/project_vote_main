@@ -4,6 +4,7 @@ import com.skhu.vote.utils.SHA512EncryptUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@RedisHash("block")
 public class BlockHeader implements Serializable {
 
     private static final long serialVersionUID = -597819263112668252L;
@@ -31,7 +33,6 @@ public class BlockHeader implements Serializable {
 
     public BlockHeader(final BlockBody blockBody, final String preBlockHash) {
         this.preBlockHash = preBlockHash;
-        this.createBlockTime = new Date();
         this.blockHash = blockBody.hashCode();
         this.blockBody = blockBody;
         this.setMerkleHash();
@@ -41,4 +42,5 @@ public class BlockHeader implements Serializable {
         if(merkleHash == null)
             this.merkleHash = SHA512EncryptUtils.encrypt(String.valueOf(this.hashCode()));
     }
+
 }

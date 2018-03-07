@@ -7,7 +7,5 @@ import com.skhu.vote.model.Req.VoteReq;
  */
 
 public interface BlockChainService {
-    //BlockHeader createBloce(final CandidateReq candidateReq, final String code);
-    //boolean insertBlock(final VoteReq voteReq);
-    //boolean checkBlockChain();
+    boolean insertBlock(final VoteReq voteReq);
 }

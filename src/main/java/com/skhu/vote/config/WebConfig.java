@@ -25,7 +25,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     private static final String[] EXCLUDE_PATH = {
             "/emc/login",
-            "/vote/access"
+            "/vote/access",
+            "/vote/test"
     };
 
     @Autowired

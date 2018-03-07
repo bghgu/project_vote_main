@@ -11,7 +11,6 @@ import java.util.Date;
  * Created by ds on 2018-02-06.
  */
 
-@RedisHash("jwt")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

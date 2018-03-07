@@ -3,10 +3,13 @@ package com.skhu.vote.serviceImpl;
 import com.skhu.vote.domain.AUTH;
 import com.skhu.vote.domain.VOTEINFO;
 import com.skhu.vote.model.Req.AuthCodeReq;
+import com.skhu.vote.model.Req.CandidateReq;
+import com.skhu.vote.model.Req.VoteReq;
 import com.skhu.vote.model.Res.DefaultRes;
 import com.skhu.vote.model.StatusEnum;
 import com.skhu.vote.repository.AuthRepository;
 import com.skhu.vote.repository.VoteInfoRepository;
+import com.skhu.vote.service.BlockChainService;
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.VoteService;
 
@@ -38,15 +41,16 @@ public class VoteServiceImpl implements VoteService {
     @Autowired
     JwtService jwtService;
 
-    /***
-     * 1. 등록된 인증번호가 아닌지 확인
-     2. 현재 인증번호로 로그인 중인지 확인
-     3. 이미 투표를 진행했는지 확인
-     4. 투표 및 후보자 리스트 반환
-     */
+    @Autowired
+    BlockChainService blockChainService;
 
+    /**
+     * 투표 및 후보자 리스트 반환 프로세스
+     * @param code
+     * @return
+     */
     @Override
-    public DefaultRes voteService(final String code) {
+    public DefaultRes access(final String code) {
         DefaultRes response = new DefaultRes();
         if(!isAuthCodeExist(code)) response.setMsg("등록된 인증번호가 아닙니다.");
         else {
@@ -66,11 +70,57 @@ public class VoteServiceImpl implements VoteService {
         return response;
     }
 
+    /**
+     * 투표
+     * @param voteReq
+     * @return
+     */
+    @Override
+    public DefaultRes vote(VoteReq voteReq) {
+        DefaultRes response = new DefaultRes();
+        if(!isAuthCodeExist(voteReq.getCode())) response.setMsg("존재하지 않는 인증코드 입니다.");
+        else {
+            if(isVoteCheck(voteReq.getCode())) response.setMsg("이미 투표를 진행했습니다.");
+            else {
+                if(voteReq.getVoteList().size() == 0) response.setMsg("투표 값이 없습니다.");
+                else {
+                    if(!checkCandidateReq(voteReq.getVoteList())) response.setMsg("유효하지 않은 투표 값 입니다.");
+                    else {
+                        //투표 값 삽입
+                        blockChainService.insertBlock(voteReq);
+                        updateVoteCheck(voteReq.getCode());
+                        logout(voteReq.getCode());
+                        response.setStatus(StatusEnum.SUCCESS);
+                        response.setMsg("투표가 성공적으로 끝났습니다.");
+                    }
+                }
+            }
+        }
+        return response;
+    }
+
+    private boolean checkCandidateReq(final List<CandidateReq> list) {
+        for(CandidateReq candidateReq : list) {
+            if(candidateReq.getVoteId() < 1 || candidateReq.getCandidateId() < 1) return false;
+        }
+        return true;
+    }
+
+    /**
+     * 인증 코드 존재 유무
+     * @param code
+     * @return
+     */
     private boolean isAuthCodeExist(final String code) {
         if(authRepository.findByAuthCode(code) == null) return false;
         else return true;
     }
 
+    /**
+     * 투표 및 후보자 리스트 반환
+     * @param code
+     * @return
+     */
     @Transactional
     public List<VOTEINFO> getVoteList(final String code) {
         AUTH auth = authRepository.findByAuthCode(code);
@@ -90,25 +140,48 @@ public class VoteServiceImpl implements VoteService {
         }
     }
 
+    /**
+     * 투표 여부 확인
+     * @param code
+     * @return
+     */
     private boolean isVoteCheck(final String code) {
         if(authRepository.findByAuthCode(code).getVoteCheck() == 1) return true;
         else return false;
     }
 
+    /**
+     * json map 생성 및 jwt 토큰 생성
+     * @param code
+     * @return
+     */
     private Map<String, Object> createMap(final String code) {
         Map<String, Object> map = new HashMap<>();
         map.put("jwt", jwtService.createToken(code, "voter"));
         return map;
     }
 
+    /**
+     * 로그인 시간 업데이트
+     * @param code
+     */
     private void updateLoginTime(final String code) {
         authRepository.updateLoginTime(new Date(), code);
     }
 
+    /**
+     * 로그인 횟수 업데이트
+     * @param count
+     * @param code
+     */
     private void updateLoginCheck(final int count, final String code) {
         authRepository.updateLoginCheck(count + 1, code);
     }
 
+    /**
+     * 투표 여부 변경
+     * @param code
+     */
     @Transactional
     public void updateVoteCheck(final String code) {
         authRepository.updateVoteCheck(code);

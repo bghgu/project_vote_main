@@ -7,6 +7,7 @@ import com.skhu.vote.model.Req.VoteReq;
 import com.skhu.vote.model.Res.DefaultRes;
 
 import com.skhu.vote.model.StatusEnum;
+import com.skhu.vote.service.BlockChainService;
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.VoteService;
 
@@ -40,21 +41,12 @@ public class voteController {
     @Autowired
     JwtService jwtService;
 
-    /*@Autowired
-    BlockChainService blockChainService;*/
+    @Autowired
+    BlockChainService blockChainService;
 
-    /**
-     * 1. 인증 코드로 현재 토큰이 발급되있는지 검사(로그인 체크)
-     * 2. 인증 코드값이 유효한지 검사(DB에서)
-     * 3. 이미 투표를 했는지 검사
-     * 4. 인증 코드에 해당하는 투표 및 후보자 리스트 반환(로그인 시간, 로그인 카운트 증가)
-     * 5. 인증 코드에 해당 하는 토큰 생성
-     * @param code
-     * @return
-     */
     @PostMapping("access")
     public ResponseEntity<DefaultRes> access(@RequestBody AuthCodeReq code) {
-        return new ResponseEntity<DefaultRes>(voteService.voteService(code.getCode()), HttpStatus.OK);
+        return new ResponseEntity<DefaultRes>(voteService.access(code.getCode()), HttpStatus.OK);
     }
 
     /**
@@ -70,38 +62,13 @@ public class voteController {
      */
     @PostMapping("")
     public ResponseEntity<DefaultRes> vote(@RequestBody VoteReq voteReq) {
-        DefaultRes response = new DefaultRes();
-        /*if(!voteService.isAuthCodeExist(voteReq.getCode())) response.setMsg("존재하지 않는 인증코드 입니다.");
-        else {
-            if(voteService.isVoteCheck(voteReq.getCode())) response.setMsg("이미 투표를 진행했습니다.");
-            else {
-                if(voteReq.getVoteList().size() == 0) response.setMsg("투표 값이 없습니다.");
-                else {
-                    for(CandidateReq candidateReq : voteReq.getVoteList()) {
-                        if(candidateReq.getVoteId() < 1 || candidateReq.getCandidateId() < 1) response.setMsg("유효하지 않은 투표 값 입니다.");
-                        else {
-                            //투표 값 삽입
-                            //blockChainService.insertBlock(candidateReq, voteReq.getCode());
-                            voteService.updateVoteCheck(voteReq.getCode());
-                            voteService.logout(voteReq.getCode());
-                            response.setStatus(StatusEnum.SUCCESS);
-                            response.setMsg("투표가 성공적으로 끝났습니다.");
-                        }
-                    }
-                }
-            }
-        }*/
-        /*if(!sessionService.isSession(voteReq.getCode())) response.setMsg("해당 인증코드는 사용하실 수 없습니다.");
-        else {
-
-        }*/
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
+        return new ResponseEntity<DefaultRes>(voteService.vote(voteReq), HttpStatus.OK);
     }
 
     @PostMapping("test")
     public ResponseEntity<DefaultRes> test(@RequestBody VoteReq voteReq) {
         DefaultRes response = new DefaultRes();
-        //blockChainService.insertBlock(voteReq);
+        blockChainService.insertBlock(voteReq);
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
     }
 }
