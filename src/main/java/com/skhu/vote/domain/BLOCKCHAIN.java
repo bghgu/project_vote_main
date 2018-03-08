@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -28,9 +30,10 @@ public class BLOCKCHAIN{
     private Date createBlockTime;
     //현재 블록 인덱스
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int blockId;
     //현재 블록 바디 해쉬값
-    private int blockHash;
+    private String blockHash;
 
     //블록 바디
     //투표 시간

@@ -49,36 +49,36 @@ public class BlockChainServiceImpl implements BlockChainService {
                 blockChainRepository.save(blockchain);
                 //마지막 블록 해쉬값 갱신
                 tempHashCode = block.getMerkleHash();
-                System.out.println(blockchain.toString());
             }
             if(!checkBlockChain().equals("")) {
                 //commit;
+                System.out.println("성공");
                 return true;
             }else {
                 //rollback;
+                System.out.println("실패");
                 return false;
             }
         }else {
             return false;
         }
-
+        //return true;
     }
 
     //블록 체인 검사 및 마지막 블록 해쉬값 리턴
     private String checkBlockChain() {
         String tempBlockHash = firstBlockHash;
         List<BLOCKCHAIN> blockchainList = blockChainRepository.findAll();
-        String res = "";
-        while (!blockchainList.isEmpty()) {
-            String temp = tempBlockHash;
-            for(BLOCKCHAIN blockchain : blockchainList) {
+        for(BLOCKCHAIN blockchain : blockchainList) {
+            BlockBody blockBody = new BlockBody(blockchain);
+            if(blockchain.getBlockHash().equals(blockBody.hash())) {
+                //System.out.println("2");
                 if(tempBlockHash.equals(blockchain.getPreBlockHash())) {
+                    //System.out.println("3");
                     tempBlockHash = blockchain.getMerkleHash();
-                    blockchainList.remove(blockchain);
                 }
-            }
-            if(temp.equals(tempBlockHash)) {
-                return res;
+            }else {
+                return "";
             }
         }
         return tempBlockHash;

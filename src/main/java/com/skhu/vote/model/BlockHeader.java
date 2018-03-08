@@ -27,13 +27,13 @@ public class BlockHeader implements Serializable {
     //블록 생성 시간
     private Date createBlockTime;
     //현재 블록 바디 해쉬값
-    private int blockHash;
+    private String blockHash;
     //블록 바디 값
     private BlockBody blockBody;
 
     public BlockHeader(final BlockBody blockBody, final String preBlockHash) {
         this.preBlockHash = preBlockHash;
-        this.blockHash = blockBody.hashCode();
+        this.blockHash = blockBody.hash();
         this.blockBody = blockBody;
         this.setMerkleHash();
     }
