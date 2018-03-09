@@ -8,6 +8,7 @@ import com.skhu.vote.service.EmcService;
 
 import com.skhu.vote.service.JwtService;
 import com.skhu.vote.service.LoginService;
+import com.skhu.vote.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,9 @@ public class emcController {
     @Autowired
     JwtService jwtService;
 
+    @Autowired
+    RedisService redisService;
+
     @PostMapping("login")
     public ResponseEntity<DefaultRes> login(@RequestBody LoginReq loginReq) {
         return new ResponseEntity<DefaultRes>(loginService.login(loginReq), HttpStatus.OK);
@@ -64,6 +68,14 @@ public class emcController {
         loginService.logout(jwtService.getAuthId("emc"));
         DefaultRes response = new DefaultRes(StatusEnum.SUCCESS);
         response.setMsg("안전하게 로그아웃이 되었습니다.");
+        return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("clear")
+    public ResponseEntity<DefaultRes> clear(HttpServletRequest request) {
+        redisService.clear();
+        DefaultRes response = new DefaultRes(StatusEnum.SUCCESS);
+        response.setMsg("redis all data clear");
         return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
     }
 }

@@ -2,17 +2,16 @@ package com.skhu.vote.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * Created by ds on 2018-02-02.
  */
 
 @Configuration
+@EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     private static final String[] EXCLUDE_ERROR_PATH = {
@@ -25,9 +24,21 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     private static final String[] EXCLUDE_PATH = {
             "/emc/login",
+            "/emc/clear",
             "/vote/access",
             "/vote/test"
     };
+
+    /*//필터
+    //@Value("${allowOrigins}")
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**")//get,post,head
+                .allowedOrigins("http://127.0.0.1:8100")
+                .allowedOrigins("*")
+                .allowCredentials(false)
+                .maxAge(3600);
+    }*/
 
     @Autowired
     private JwtInterceptor jwtInterceptor;
@@ -36,17 +47,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns(EXCLUDE_PATH)
-                .excludePathPatterns(EXCLUDE_ERROR_PATH);
+                .excludePathPatterns(EXCLUDE_PATH);
     }
 
-    //필터
-    //@Value("${allowOrigins}")
-    @Override
-    public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/**")//get,post,head
-                //.allowedOrigins()
-                .allowedHeaders("*")
-                .allowedMethods("*");
-    }
 }

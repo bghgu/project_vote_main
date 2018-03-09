@@ -11,7 +11,15 @@ Content-Type: application/json
 
 < ./emc.json
 
+
 ### POST emc/login
-### POST http://127.0.0.1:8080/emc/login
-### Content-Type: application/json
-### < ./login.json
+POST http://bghgu.tk/emc/login
+Content-Type: application/json
+
+< ./login.json
+
+### Get emc/logout
+GET http://bghgu.tk/emc/logout
+Authorization: eyJ0eXBlIjoiSldUIiwicmVnRGF0ZSI6MTUyMDU1MjE2OTE2NSwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiJlbWMiLCJleHAiOjE1MjA1NTU3NjksImVtYyI6eyJpZCI6IjEiLCJuYW1lIjoi67Cw64uk7IqsIiwidHlwZSI6MSwicm9sZXMiOiJST0xFX0FETUlOIn19.8HzC39HE5m_v5U8Xhxl5DfwUhMb5CXS70i5LRZMBlW4jzQRHZ8KCSs_rDVidhjqa0LNYJt6az4tbkREJ1OQqeA
+
+###

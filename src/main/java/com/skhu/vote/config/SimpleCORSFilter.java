@@ -1,4 +1,3 @@
-/*
 package com.skhu.vote.config;
 
 import java.io.IOException;
@@ -11,12 +10,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
-
-*/
-/**
- * Created by ds on 2018-01-27.
- *//*
-
 
 @Component
 public class SimpleCORSFilter implements Filter {
@@ -33,9 +26,11 @@ public class SimpleCORSFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {}
+    public void init(FilterConfig filterConfig) {
+    }
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
 
-}*/
+}

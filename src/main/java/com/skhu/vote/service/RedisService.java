@@ -5,5 +5,5 @@ package com.skhu.vote.service;
  */
 
 public interface RedisService {
-    
+    void clear();
 }
