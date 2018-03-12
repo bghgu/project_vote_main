@@ -10,6 +10,7 @@ import com.skhu.vote.model.BlockHeader;
 import com.skhu.vote.model.Req.CandidateReq;
 import com.skhu.vote.model.Req.VoteReq;
 import com.skhu.vote.model.Res.DefaultRes;
+import com.skhu.vote.model.StatusEnum;
 import com.skhu.vote.repository.BlockChainRepository;
 import com.skhu.vote.service.BlockChainService;
 import com.skhu.vote.utils.SHA512EncryptUtils;
@@ -55,6 +56,7 @@ public class BlockChainServiceImpl implements BlockChainService {
             }
             if(!checkBlockChain().equals("")) {
                 //commit;
+                response.setStatus(StatusEnum.SUCCESS);
                 response.setMsg("투표 완료");
                 return response;
             }else {

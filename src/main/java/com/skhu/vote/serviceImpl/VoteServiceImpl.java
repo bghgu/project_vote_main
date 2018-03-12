@@ -1,6 +1,7 @@
 package com.skhu.vote.serviceImpl;
 
 import com.skhu.vote.domain.AUTH;
+import com.skhu.vote.domain.CANDIDATE;
 import com.skhu.vote.domain.VOTEINFO;
 import com.skhu.vote.model.Req.AuthCodeReq;
 import com.skhu.vote.model.Req.CandidateReq;
@@ -8,6 +9,7 @@ import com.skhu.vote.model.Req.VoteReq;
 import com.skhu.vote.model.Res.DefaultRes;
 import com.skhu.vote.model.StatusEnum;
 import com.skhu.vote.repository.AuthRepository;
+import com.skhu.vote.repository.CandidateRepository;
 import com.skhu.vote.repository.VoteInfoRepository;
 import com.skhu.vote.service.BlockChainService;
 import com.skhu.vote.service.JwtService;
@@ -43,6 +45,9 @@ public class VoteServiceImpl implements VoteService {
 
     @Autowired
     BlockChainService blockChainService;
+
+    @Autowired
+    CandidateRepository candidateRepository;
 
     /**
      * 투표 및 후보자 리스트 반환 프로세스
@@ -87,11 +92,13 @@ public class VoteServiceImpl implements VoteService {
                     if(!checkCandidateReq(voteReq.getVoteList())) response.setMsg("유효하지 않은 투표 값 입니다.");
                     else {
                         //투표 값 삽입
-                        blockChainService.insertBlock(voteReq);
-                        updateVoteCheck(voteReq.getCode());
-                        logout(voteReq.getCode());
-                        response.setStatus(StatusEnum.SUCCESS);
-                        response.setMsg("투표가 성공적으로 끝났습니다.");
+                        try {
+                            response = blockChainService.insertBlock(voteReq);
+                            updateVoteCheck(voteReq.getCode());
+                            logout();
+                        }catch (Exception e) {
+
+                        }
                     }
                 }
             }
@@ -100,8 +107,11 @@ public class VoteServiceImpl implements VoteService {
     }
 
     private boolean checkCandidateReq(final List<CandidateReq> list) {
+        candidateRepository.findAll();
         for(CandidateReq candidateReq : list) {
             if(candidateReq.getVoteId() < 1 || candidateReq.getCandidateId() < 1) return false;
+            CANDIDATE candidate = candidateRepository.findOne(candidateReq.getCandidateId());
+            if(candidate.getVoteInfo().getVoteId() != candidateReq.getVoteId()) return false;
         }
         return true;
     }
@@ -166,7 +176,9 @@ public class VoteServiceImpl implements VoteService {
      * @param code
      */
     private void updateLoginTime(final String code) {
-        authRepository.updateLoginTime(new Date(), code);
+        AUTH auth = authRepository.findByAuthCode(code);
+        auth.setLastLogin(new Date());
+        authRepository.save(auth);
     }
 
     /**
@@ -175,7 +187,9 @@ public class VoteServiceImpl implements VoteService {
      * @param code
      */
     private void updateLoginCheck(final int count, final String code) {
-        authRepository.updateLoginCheck(count + 1, code);
+        AUTH auth = authRepository.findByAuthCode(code);
+        auth.setLoginCheck(auth.getLoginCheck()+1);
+        authRepository.save(auth);
     }
 
     /**
@@ -184,15 +198,15 @@ public class VoteServiceImpl implements VoteService {
      */
     @Transactional
     public void updateVoteCheck(final String code) {
-        authRepository.updateVoteCheck(code);
+        AUTH auth = authRepository.findByAuthCode(code);
+        auth.setVoteCheck(1);
+        authRepository.save(auth);
     }
 
     /**
      * 투표 로그아웃
-     * @param code
      */
-    @Override
-    public void logout(final String code) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+    private void logout() {
+        jwtService.logoutJwt();
     }
 }

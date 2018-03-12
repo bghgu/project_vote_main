@@ -13,7 +13,6 @@ import java.util.Map;
  */
 
 public interface VoteService{
-    void logout(final String code);
     DefaultRes access(final String code);
     DefaultRes vote(final VoteReq voteReq);
 }

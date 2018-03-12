@@ -18,12 +18,4 @@ public interface AuthRepository extends JpaRepository<AUTH, Integer> {
     @Modifying
     @Query("UPDATE AUTH a set a.lastLogin = :time where a.authCode = :authCode")
     void updateLoginTime(@Param("time") final Date time, @Param("authCode") final String authCode);
-
-    @Modifying
-    @Query("UPDATE AUTH a set a.loginCheck = :count where a.authCode = :authCode")
-    void updateLoginCheck(@Param("count") int count, @Param("authCode") final String authCode);
-
-    @Modifying
-    @Query("UPDATE AUTH a set a.voteCheck = 1 where a.authCode = :authCode")
-    void updateVoteCheck(@Param("authCode") final String authCode);
 }
