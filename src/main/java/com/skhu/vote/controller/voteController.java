@@ -67,8 +67,6 @@ public class voteController {
 
     @PostMapping("test")
     public ResponseEntity<DefaultRes> test(@RequestBody VoteReq voteReq) {
-        DefaultRes response = new DefaultRes();
-        blockChainService.insertBlock(voteReq);
-        return new ResponseEntity<DefaultRes>(response, HttpStatus.OK);
+        return new ResponseEntity<DefaultRes>(blockChainService.insertBlock(voteReq), HttpStatus.OK);
     }
 }

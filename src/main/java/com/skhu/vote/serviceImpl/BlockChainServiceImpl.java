@@ -9,8 +9,10 @@ import com.skhu.vote.model.BlockBody;
 import com.skhu.vote.model.BlockHeader;
 import com.skhu.vote.model.Req.CandidateReq;
 import com.skhu.vote.model.Req.VoteReq;
+import com.skhu.vote.model.Res.DefaultRes;
 import com.skhu.vote.repository.BlockChainRepository;
 import com.skhu.vote.service.BlockChainService;
+import com.skhu.vote.utils.SHA512EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,8 @@ public class BlockChainServiceImpl implements BlockChainService {
 
     //블록 삽입
     @Override
-    public boolean insertBlock(final VoteReq voteReq) {
+    public DefaultRes insertBlock(final VoteReq voteReq) {
+        DefaultRes response = new DefaultRes();
         //블록체인 검사 및 마지막 블록 해쉬값 리턴
         String tempHashCode = checkBlockChain();
         if(!tempHashCode.equals("")) {
@@ -52,17 +55,17 @@ public class BlockChainServiceImpl implements BlockChainService {
             }
             if(!checkBlockChain().equals("")) {
                 //commit;
-                System.out.println("성공");
-                return true;
+                response.setMsg("투표 완료");
+                return response;
             }else {
                 //rollback;
-                System.out.println("실패");
-                return false;
+                response.setMsg("투표 실패! 선관위에 문의 하세요.");
+                return response;
             }
         }else {
-            return false;
+            response.setMsg("블록체인 검증 오류!");
+            return response;
         }
-        //return true;
     }
 
     //블록 체인 검사 및 마지막 블록 해쉬값 리턴
@@ -71,27 +74,23 @@ public class BlockChainServiceImpl implements BlockChainService {
         List<BLOCKCHAIN> blockchainList = blockChainRepository.findAll();
         for(BLOCKCHAIN blockchain : blockchainList) {
             BlockBody blockBody = new BlockBody(blockchain);
-            if(blockchain.getBlockHash().equals(blockBody.hash())) {
-                //System.out.println("2");
-                if(tempBlockHash.equals(blockchain.getPreBlockHash())) {
-                    //System.out.println("3");
+            if(blockBody.hash().equals(blockchain.getBlockHash())) {
+                if(merkleHash(blockBody.hash()).equals(blockchain.getMerkleHash())) {
                     tempBlockHash = blockchain.getMerkleHash();
+                }else {
+                    tempBlockHash = "";
+                    break;
                 }
             }else {
-                return "";
+                tempBlockHash = "";
+                break;
             }
         }
         return tempBlockHash;
     }
 
-    //마지막 블록 해쉬값 리턴
-    private String getLastPreBlockHashCode() {
-        String tempBlockHash = firstBlockHash;
-        List<BLOCKCHAIN> blockchainList = blockChainRepository.findAll();
-        for(BLOCKCHAIN blockchain : blockchainList) {
-
-        }
-        return tempBlockHash;
+    private String merkleHash(final String hash) {
+        return SHA512EncryptUtils.encrypt(hash);
     }
 
     //블록 생성

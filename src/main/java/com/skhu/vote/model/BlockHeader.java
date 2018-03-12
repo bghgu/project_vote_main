@@ -35,12 +35,13 @@ public class BlockHeader implements Serializable {
         this.preBlockHash = preBlockHash;
         this.blockHash = blockBody.hash();
         this.blockBody = blockBody;
+        this.createBlockTime = new Date();
         this.setMerkleHash();
     }
 
     private void setMerkleHash() {
         if(merkleHash == null)
-            this.merkleHash = SHA512EncryptUtils.encrypt(String.valueOf(this.hashCode()));
+            this.merkleHash = SHA512EncryptUtils.encrypt(blockHash);
     }
 
 }

@@ -45,6 +45,6 @@ public class BlockBody implements Serializable{
     }
 
     public String hash() {
-        return BlockHashUtils.hashCode(this.voteTime, this.candidateId, this.voteId, this.authCode);
+        return BlockHashUtils.hashCode(this.candidateId, this.voteId, this.authCode);
     }
 }
