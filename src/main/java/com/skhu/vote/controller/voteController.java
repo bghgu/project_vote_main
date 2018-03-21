@@ -9,6 +9,7 @@ import com.skhu.vote.model.Res.DefaultRes;
 import com.skhu.vote.model.StatusEnum;
 import com.skhu.vote.service.BlockChainService;
 import com.skhu.vote.service.JwtService;
+import com.skhu.vote.service.RestService;
 import com.skhu.vote.service.VoteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,9 @@ public class voteController {
     JwtService jwtService;
 
     @Autowired
+    RestService restService;
+
+    @Autowired
     BlockChainService blockChainService;
 
     @PostMapping("access")
@@ -65,8 +69,14 @@ public class voteController {
         return new ResponseEntity<DefaultRes>(voteService.vote(voteReq), HttpStatus.OK);
     }
 
-    @PostMapping("test")
-    public ResponseEntity<DefaultRes> test(@RequestBody VoteReq voteReq) {
+    @PostMapping("boardcast")
+    public ResponseEntity<DefaultRes> boardcast(@RequestBody VoteReq voteReq) {
         return new ResponseEntity<DefaultRes>(blockChainService.insertBlock(voteReq), HttpStatus.OK);
+    }
+
+    @PostMapping("test")
+    public ResponseEntity<DefaultRes> test1(@RequestBody VoteReq voteReq) {
+        restService.boardcast(voteReq);
+        return new ResponseEntity<DefaultRes>(voteService.vote(voteReq), HttpStatus.OK);
     }
 }

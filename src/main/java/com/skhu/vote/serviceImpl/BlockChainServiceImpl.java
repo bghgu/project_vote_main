@@ -13,10 +13,13 @@ import com.skhu.vote.model.Res.DefaultRes;
 import com.skhu.vote.model.StatusEnum;
 import com.skhu.vote.repository.BlockChainRepository;
 import com.skhu.vote.service.BlockChainService;
+import com.skhu.vote.service.RestService;
 import com.skhu.vote.utils.SHA512EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -35,11 +38,15 @@ public class BlockChainServiceImpl implements BlockChainService {
     @Autowired
     BlockChainRepository blockChainRepository;
 
+    @Autowired
+    RestService restService;
+
     @Value("${firstBlockHash}")
     private String firstBlockHash;
 
     //블록 삽입
     @Override
+    @Transactional
     public DefaultRes insertBlock(final VoteReq voteReq) {
         DefaultRes response = new DefaultRes();
         //블록체인 검사 및 마지막 블록 해쉬값 리턴
@@ -56,6 +63,7 @@ public class BlockChainServiceImpl implements BlockChainService {
             }
             if(!checkBlockChain().equals("")) {
                 //commit;
+                restService.boardcast(voteReq);
                 response.setStatus(StatusEnum.SUCCESS);
                 response.setMsg("투표 완료");
                 return response;

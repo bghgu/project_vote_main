@@ -79,21 +79,24 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
         }
 
         final String token = request.getHeader(HEADER);
-
+        System.out.println(token);
         //헤더값이 없을 경우
         if(token == null) {
+            System.out.println(1);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "no-token");
             //response.sendRedirect("/no-token");
             return false;
         }
         //헤더값은 있지만 토큰값이 잘못된 경우
         if(!jwtService.isValuedToken(token)) {
+            System.out.println(2);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"token-error");
             //response.sendRedirect("/token-error");
             return false;
         }
         //해당 토큰값의 세션 여부
         if(!jwtService.isJwt(token)) {
+            System.out.println(3);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"token-session-error");
             //response.sendRedirect("/token-session-error");
             return false;

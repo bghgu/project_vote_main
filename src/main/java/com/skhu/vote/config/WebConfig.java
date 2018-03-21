@@ -26,6 +26,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             "/emc/login",
             "/emc/clear",
             "/vote/access",
+            "/vote/boardcast",
             "/vote/test"
     };
 
