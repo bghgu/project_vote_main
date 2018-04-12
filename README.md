@@ -1,12 +1,18 @@
 # project_vote_main
 
-성공회대학교 전자 투표 시스템
+블록체인을 이용한 전자 투표 시스템 
 
-선거관리 위원회, 유권자
+마이크로 서비스 아키텍쳐
 
-#### url : bghgu.tk/main
+3개의 서비스 서버로 구성
 
-#### api : https://github.com/bghgu/project_vote_main/wiki
+선거 및 선관위 관리 시스템 / **투표 시스템** / 선거 정보 조회 시스템
+
+프로젝트 기간 : 2018년 겨울 방학
+
+맡은 역할 : PM, DB 설계, 투표 정보 조회 시스템 개발, 투표 시스템 개발
+
+API : https://github.com/bghgu/project_vote_main/wiki
 
 ## 1. 시작하기
 
@@ -93,6 +99,8 @@ AWS EC2 Ubuntu 환경
 
 백 그라운드 spring boot 앱 실행
 
+내장 톰캣을 사용해 배포합니다.
+
 ```
 nohup mvn spring-boot:run&
 ```
@@ -102,9 +110,9 @@ nohup mvn spring-boot:run&
 
 ## 배포
 
-AWS EC2
-
-AWS RDS MySql
+* AWS EC2 - 애플리케이션 서버
+* AWS RDS - db 서버
+* AWS ElastiCache - 인 메모리 데이터 서버
 
 ## 사용된 도구
 
@@ -113,19 +121,23 @@ AWS RDS MySql
 * [IntelliJ IDEA](https://www.jetbrains.com/idea/) - IDE
 * [MySql](https://www.mysql.com/) - DataBase
 * [Redis](https://redis.io/) - DataBase
+* [AWS EC2](https://aws.amazon.com/ko/ec2/?sc_channel=PS&sc_campaign=acquisition_KR&sc_publisher=google&sc_medium=english_ec2_b&sc_content=ec2_e&sc_detail=aws%20ec2&sc_category=ec2&sc_segment=177228231544&sc_matchtype=e&sc_country=KR&s_kwcid=AL!4422!3!177228231544!e!!g!!aws%20ec2&ef_id=WkRozwAAAnO-lPWy:20180412120123:s) - 클라우드 환경 컴퓨팅 시스템
+* [AWS RDS](https://aws.amazon.com/ko/rds/) - 클라우드 환경 데이터베이스 관리 시스템
+* [AWS ElastiCache](https://aws.amazon.com/ko/elasticache/) - 클라우드 환경 인 메모리 데이터 스토어
 
 ## 저자
 
 * **배다슬** - [bghgu](https://github.com/bghgu)
 
 
-[기여자 목록](https://github.com/bghgu/project_vote_main/contributors)을 확인하여 이 프로젝트에 참가하신 분들을 보실 수 있습니다.
+[기여자 목록](https://github.com/bghgu/project_vote_main/graphs/contributors)을 확인하여 이 프로젝트에 참가하신 분들을 보실 수 있습니다.
 
 ## 감사 인사
 
-* 본인의 코드가 사용된 분께 경의를 표합니다
-* 영감
-* etc (등)
+* **이승기** - [sjaqjwor](https://github.com/sjaqjwor)
+* **JongMin Kim** - [devetude](https://github.com/devetude)
+* [블록체인 한번에 이해하기](https://homoefficio.github.io/2017/11/19/%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8-%ED%95%9C-%EB%B2%88%EC%97%90-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/)
+* [Java 코드로 이해하는 블록체인](http://www.popit.kr/java-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94-%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8blockchain/)
 
 ---
 
