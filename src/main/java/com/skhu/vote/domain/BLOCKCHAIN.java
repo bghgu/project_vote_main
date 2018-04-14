@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -19,8 +20,8 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class BLOCKCHAIN{
-
+public class BLOCKCHAIN implements Serializable {
+    private static final long serialVersionUID = -5893925423553544422L;
     //블록 헤더
     //이전블록 해쉬값
     private String preBlockHash;
@@ -34,7 +35,6 @@ public class BLOCKCHAIN{
     private int blockId;
     //현재 블록 바디 해쉬값
     private String blockHash;
-
     //블록 바디
     //투표 시간
     private Date voteTime;
@@ -44,7 +44,6 @@ public class BLOCKCHAIN{
     private int voteId;
     //투표한 인증코드
     private String authCode;
-
     public BLOCKCHAIN(final BlockHeader blockHeader) {
         this.preBlockHash = blockHeader.getPreBlockHash();
         this.merkleHash = blockHeader.getMerkleHash();
