@@ -22,22 +22,24 @@ API : https://github.com/bghgu/project_vote_main/wiki
 
 ## 구성
 
-![1.png](https://github.com/bghgu/project_vote_main/blob/master/image/1.png)
-
 * 전체 시스템 구성도
 
-![2.png](https://github.com/bghgu/project_vote_main/blob/master/image/2.png)
+![1.png](https://github.com/bghgu/project_vote_main/blob/master/image/1.png)
 
 * 투표 시스템 구성도
 * 기능
-  * 선관위가 유권자 확인
-  * 선관위가 유권자에게 인증번호 발급
-  * 유권자는 인증번호로 로그인
-  * 투표
+  - 선관위가 유권자 확인
+  - 선관위가 유권자에게 인증번호 발급
+  - 유권자는 인증번호로 로그인
+  - 투표
+
+![2.png](https://github.com/bghgu/project_vote_main/blob/master/image/2.png)
+
+* 블록 체인 구성도
 
 ![blockChain1.png](https://github.com/bghgu/project_vote_main/blob/master/image/blockChain1.png)
 
-* 블록 체인 구성도
+* 블록 헤더
 
 ```
 import com.skhu.vote.utils.SHA512EncryptUtils;
@@ -86,7 +88,7 @@ public class BlockHeader implements Serializable {
 }
 ```
 
-* 블록 헤더
+* 블록 바디
 
 ```
 import com.skhu.vote.domain.BLOCKCHAIN;
@@ -139,7 +141,7 @@ public class BlockBody implements Serializable{
 }
 ```
 
-* 블록 바디
+* 블록 체인
 
 ```
 import com.skhu.vote.model.BlockHeader;
@@ -198,8 +200,6 @@ public class BLOCKCHAIN implements Serializable {
     }
 }
 ```
-
-* 블록 체인
 
 ## 시작하기
 
