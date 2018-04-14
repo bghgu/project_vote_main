@@ -1,10 +1,10 @@
 # project_vote_main
 
+**당신의 회장에게 투표하세요**
+
 블록체인을 이용한 전자 투표 시스템 
 
-마이크로 서비스 아키텍쳐
-
-3개의 서비스 서버로 구성
+* 마이크로 서비스 아키텍쳐, 3개의 서비스 서버로 구성
 
 선거 및 선관위 관리 시스템 / **투표 시스템** / 선거 정보 조회 시스템
 
@@ -12,7 +12,27 @@
 
 맡은 역할 : PM, DB 설계, 투표 정보 조회 시스템 개발, 투표 시스템 개발
 
+[투표 시스템 작품제안서](https://github.com/bghgu/project_vote_main/blob/master/%ED%88%AC%ED%91%9C%20%EC%8B%9C%EC%8A%A4%ED%85%9C_%EC%9E%91%ED%92%88%EC%A0%9C%EC%95%88%EC%84%9C.pdf) - 작품 제안서
+
 API : https://github.com/bghgu/project_vote_main/wiki
+
+![db.png](https://github.com/bghgu/project_vote_main/blob/master/image/db.png)
+
+ER 다이어그램
+
+## 구성
+
+![1.png](https://github.com/bghgu/project_vote_main/blob/master/image/1.png)
+
+![2.png](https://github.com/bghgu/project_vote_main/blob/master/image/2.png)
+
+![blockChain1.png](https://github.com/bghgu/project_vote_main/blob/master/image/blockChain1.png)
+
+![blockHeader.PNG](https://github.com/bghgu/project_vote_main/blob/master/image/blockHeader.PNG)
+
+![blockBody.PNG](https://github.com/bghgu/project_vote_main/blob/master/image/blockBody.PNG)
+
+![blockchain2.PNG](https://github.com/bghgu/project_vote_main/blob/master/image/blockchain2.PNG)
 
 ## 1. 시작하기
 
@@ -84,7 +104,10 @@ window 10 환경
 
 - `jdk8` 과 `maven` 을 설치합니다.
 - `JAVA_JOME` 환경변수 설정을 합니다.
-- `Path`에 `maven` 환경변수 설정을 합니다.spring boot 앱 실행
+- `Path`에 `maven` 환경변수 설정을 합니다.
+- 내장 톰캣을 이용해 서버를 배포 합니다.
+- spring boot 앱 실행
+- `application.properties` 파일이 필요합니다.
 
 ```
 mvn spring-boot:run
@@ -106,18 +129,18 @@ nohup mvn spring-boot:run&
 ```
 
 - 중지하려면,  `netstat -tnlp` 명령어를 통해 프로세스를 kill 하십시오.
-- `application.properties` 파일이 필요합니다.
 
 ## 배포
 
 * AWS EC2 - 애플리케이션 서버
-* AWS RDS - db 서버
+* AWS RDS - Mysql DB 서버
 * AWS ElastiCache - 인 메모리 데이터 서버
 
 ## 사용된 도구
 
 * [Spring-boot](https://projects.spring.io/spring-boot/) - Spring-boot 웹 프레임워크
 * [Maven](https://maven.apache.org/) - 의존성 관리 프로그램
+* [Tomcat](http://tomcat.apache.org/) - 웹 애플리케이션 서버
 * [IntelliJ IDEA](https://www.jetbrains.com/idea/) - IDE
 * [MySql](https://www.mysql.com/) - DataBase
 * [Redis](https://redis.io/) - DataBase
