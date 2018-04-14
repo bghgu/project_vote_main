@@ -18,21 +18,38 @@ API : https://github.com/bghgu/project_vote_main/wiki
 
 ![db.png](https://github.com/bghgu/project_vote_main/blob/master/image/db.png)
 
-ER 다이어그램
+* ER 다이어그램
 
 ## 구성
 
 ![1.png](https://github.com/bghgu/project_vote_main/blob/master/image/1.png)
 
+* 전체 시스템 구성도
+
 ![2.png](https://github.com/bghgu/project_vote_main/blob/master/image/2.png)
+
+* 투표 시스템 구성도
+* 기능
+  * 선관위가 유권자 확인
+  * 선관위가 유권자에게 인증번호 발급
+  * 유권자는 인증번호로 로그인
+  * 투표
 
 ![blockChain1.png](https://github.com/bghgu/project_vote_main/blob/master/image/blockChain1.png)
 
-![blockHeader.PNG](https://github.com/bghgu/project_vote_main/blob/master/image/blockHeader.PNG)
+* 블록 체인 구성도
 
-![blockBody.PNG](https://github.com/bghgu/project_vote_main/blob/master/image/blockBody.PNG)
+<img src="https://github.com/bghgu/project_vote_main/blob/master/image/blockBody.PNG" width="400" height="400">
 
-![blockchain2.PNG](https://github.com/bghgu/project_vote_main/blob/master/image/blockchain2.PNG)
+* 블록 헤더
+
+<img src="https://github.com/bghgu/project_vote_main/blob/master/image/blockHeader.PNG" width="400" height="400">
+
+* 블록 바디
+
+<img src="https://github.com/bghgu/project_vote_main/blob/master/image/blockchain2.PNG" width="400" height="400">
+
+* 블록 체인
 
 ## 1. 시작하기
 
