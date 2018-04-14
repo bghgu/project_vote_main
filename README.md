@@ -39,19 +39,169 @@ API : https://github.com/bghgu/project_vote_main/wiki
 
 * 블록 체인 구성도
 
-<img src="https://github.com/bghgu/project_vote_main/blob/master/image/blockBody.PNG" width="400" height="400">
+```
+import com.skhu.vote.utils.SHA512EncryptUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
+
+import java.io.Serializable;
+import java.util.Date;
+/**
+ * Created by ds on 2018-02-04.
+ */
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class BlockHeader implements Serializable {
+
+    private static final long serialVersionUID = -597819263112668252L;
+
+    //이전블록 해쉬값
+    private String preBlockHash;
+    //현재 블록 해쉬값 = 리스트의 키 값
+    private String merkleHash;
+    //블록 생성 시간
+    private Date createBlockTime;
+    //현재 블록 바디 해쉬값
+    private String blockHash;
+    //블록 바디 값
+    private BlockBody blockBody;
+
+    public BlockHeader(final BlockBody blockBody, final String preBlockHash) {
+        this.preBlockHash = preBlockHash;
+        this.blockHash = blockBody.hash();
+        this.blockBody = blockBody;
+        this.createBlockTime = new Date();
+        this.setMerkleHash();
+    }
+
+    private void setMerkleHash() {
+        if(merkleHash == null)
+            this.merkleHash = SHA512EncryptUtils.encrypt(blockHash);
+    }
+
+}
+```
 
 * 블록 헤더
 
-<img src="https://github.com/bghgu/project_vote_main/blob/master/image/blockHeader.PNG" width="400" height="400">
+```
+import com.skhu.vote.domain.BLOCKCHAIN;
+import com.skhu.vote.model.Req.CandidateReq;
+import com.skhu.vote.utils.BlockHashUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * Created by ds on 2018-02-06.
+ */
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BlockBody implements Serializable{
+
+    private static final long serialVersionUID = -6156036100875586824L;
+
+    //투표 시간
+    private Date voteTime;
+    //투표 값
+    private int candidateId;
+    //투표 종류
+    private int voteId;
+    //투표한 인증코드
+    private String authCode;
+
+    public BlockBody(final CandidateReq candidateReq, final String code) {
+        this.voteTime = new Date();
+        this.candidateId = candidateReq.getCandidateId();
+        this.voteId = candidateReq.getVoteId();
+        this.authCode = code;
+    }
+
+    public BlockBody(final BLOCKCHAIN blockchain) {
+        this.voteTime = blockchain.getVoteTime();
+        this.candidateId = blockchain.getCandidateId();
+        this.voteId = blockchain.getVoteId();
+        this.authCode = blockchain.getAuthCode();
+    }
+
+    public String hash() {
+        return BlockHashUtils.hashCode(this.candidateId, this.voteId, this.authCode);
+    }
+}
+```
 
 * 블록 바디
 
-<img src="https://github.com/bghgu/project_vote_main/blob/master/image/blockchain2.PNG" width="400" height="400">
+```
+import com.skhu.vote.model.BlockHeader;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * Created by ds on 2018-02-04.
+ */
+
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+public class BLOCKCHAIN implements Serializable {
+    private static final long serialVersionUID = -5893925423553544422L;
+    //블록 헤더
+    //이전블록 해쉬값
+    private String preBlockHash;
+    //현재 블록 해쉬값
+    private String merkleHash;
+    //블록 생성 시간
+    private Date createBlockTime;
+    //현재 블록 인덱스
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int blockId;
+    //현재 블록 바디 해쉬값
+    private String blockHash;
+    //블록 바디
+    //투표 시간
+    private Date voteTime;
+    //투표 값
+    private int candidateId;
+    //투표 종류
+    private int voteId;
+    //투표한 인증코드
+    private String authCode;
+    public BLOCKCHAIN(final BlockHeader blockHeader) {
+        this.preBlockHash = blockHeader.getPreBlockHash();
+        this.merkleHash = blockHeader.getMerkleHash();
+        this.createBlockTime = blockHeader.getCreateBlockTime();
+        this.blockHash = blockHeader.getBlockHash();
+        this.voteTime = blockHeader.getBlockBody().getVoteTime();
+        this.candidateId = blockHeader.getBlockBody().getCandidateId();
+        this.voteId = blockHeader.getBlockBody().getVoteId();
+        this.authCode = blockHeader.getBlockBody().getAuthCode();
+    }
+}
+```
 
 * 블록 체인
 
-## 1. 시작하기
+## 시작하기
 
 모든 소스코드는 IntelliJ + Window10 + JAVA 8 환경에서 작성되었습니다.
 
@@ -136,10 +286,8 @@ mvn spring-boot:run
 AWS EC2 Ubuntu 환경
 
 - `jdk8` 과 `maven` 을 설치합니다.
-
-백 그라운드 spring boot 앱 실행
-
-내장 톰캣을 사용해 배포합니다.
+- 백 그라운드 spring boot 앱 실행
+- 내장 톰캣을 사용해 배포합니다.
 
 ```
 nohup mvn spring-boot:run&

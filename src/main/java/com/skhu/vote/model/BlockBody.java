@@ -3,12 +3,12 @@ package com.skhu.vote.model;
 import com.skhu.vote.domain.BLOCKCHAIN;
 import com.skhu.vote.model.Req.CandidateReq;
 import com.skhu.vote.utils.BlockHashUtils;
-import lombok.*;
-import org.springframework.data.redis.core.RedisHash;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Created by ds on 2018-02-06.

@@ -15,7 +15,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash("block")
 public class BlockHeader implements Serializable {
 
     private static final long serialVersionUID = -597819263112668252L;
